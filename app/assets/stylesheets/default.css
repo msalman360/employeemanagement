@@ -448,11 +448,11 @@ html.no-overflowscrolling .nano > .nano-pane > .nano-slider {
 }
 
 .body-sign .card-sign .card-title-sign .title {
-	background-color: #0088CC;
+	background-color: #040e43;
 }
 
 .body-sign .card-sign .card-body {
-	border-top-color: #0088CC;
+	border-top-color: #040e43;
 }
 
 .body-locked .current-user .user-image {
@@ -622,8 +622,8 @@ body .btn-primary.dropdown-toggle {
 }
 
 html .btn-primary {
-	background-color: #0088CC;
-	border-color: #0088CC #0088CC #006699;
+	background-color: #040e43;
+	border-color: #040e43;
 	color: #FFF;
 }
 
