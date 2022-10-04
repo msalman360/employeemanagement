@@ -70,3 +70,8 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem 'devise'
+gem 'bcrypt'
+gem 'bcrypt-ruby'
+gem 'toastr-rails'

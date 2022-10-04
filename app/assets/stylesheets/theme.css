@@ -21131,7 +21131,7 @@ html.dark .search-content .search-results-list a:hover {
 
 /* Lock Screen */
 .body-locked {
-	background: url(../img/patterns/noisy_net.png) repeat;
+	background: url(noisy_net.png) repeat;
 	max-width: none;
 	min-height: 400px;
 }
@@ -21212,7 +21212,7 @@ html.dark .search-content .search-results-list a:hover {
 }
 /* Lock Screen - Modal */
 .mfp-lock-screen.mfp-bg {
-	background: #000 url(../img/patterns/noisy_net.png) repeat;
+	background: #000 url(noisy_net.png) repeat;
 	opacity: 0.99;
 	z-index: 9998;
 }

@@ -1,7 +1,7 @@
 <!-- start: header -->
 <header class="header">
   <div class="logo-container">
-    <a href="../4.0.0" class="logo">
+    <a href="<%= dashboard_path %>" class="logo">
       <img src="<%= asset_path 'Logo-1.png' %>" width="75" height="35" alt="Porto Admin" />
     </a>
 
@@ -191,9 +191,9 @@
         <figure class="profile-picture">
           <img src="<%= asset_path '!logged-user.jpg' %>" alt="Joseph Doe" class="rounded-circle" data-lock-picture="<%= asset_path '!logged-user.jpg' %>" />
         </figure>
-        <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
-          <span class="name">John Doe Junior</span>
-          <span class="role">Administrator</span>
+        <div class="profile-info" data-lock-name="<%= @current_user.full_name.capitalize %>" data-lock-email="<%= @current_user.email %>">
+          <span class="name"><%= @current_user.full_name.capitalize %></span>
+          <span class="role"><%= @current_user.user_type.upcase %></span>
         </div>
 
         <i class="fa custom-caret"></i>
@@ -205,11 +205,11 @@
           <li>
             <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="bx bx-user-circle"></i> My Profile</a>
           </li>
+<!--          <li>-->
+<!--            <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="bx bx-lock"></i> Lock Screen</a>-->
+<!--          </li>-->
           <li>
-            <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="bx bx-lock"></i> Lock Screen</a>
-          </li>
-          <li>
-            <a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="bx bx-power-off"></i> Logout</a>
+            <a role="menuitem" tabindex="-1" href="<%= logout_path %>"><i class="bx bx-power-off"></i> Logout</a>
           </li>
         </ul>
       </div>
