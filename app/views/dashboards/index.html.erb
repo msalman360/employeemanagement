@@ -344,7 +344,7 @@
                   <img src="<%= asset_path '!logged-user.jpg' %>">
                 </div>
                 <div class="profile-info">
-                  <h4 class="name font-weight-semibold"><%= @current_user.full_name.capitalize %></h4>
+                  <h4 class="name font-weight-semibold"><%= current_user.email.capitalize %></h4>
                   <h5 class="role">Administrator</h5>
                   <div class="profile-footer">
                     <a href="#">(edit profile)</a>
@@ -470,30 +470,30 @@
                     <ul class="simple-user-list mb-3">
                       <li>
                         <figure class="image rounded">
-                          <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= @current_user.full_name.capitalize %>" class="rounded-circle">
+                          <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= current_user.email.capitalize %>" class="rounded-circle">
                         </figure>
-                        <span class="title"><%= @current_user.full_name.capitalize %></span>
+                        <span class="title"><%= current_user.email.capitalize %></span>
                         <span class="message">Lorem ipsum dolor sit.</span>
                       </li>
                       <li>
                         <figure class="image rounded">
-                          <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= @current_user.full_name.capitalize %>" class="rounded-circle">
+                          <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= current_user.email.capitalize %>" class="rounded-circle">
                         </figure>
-                        <span class="title"><%= @current_user.full_name.capitalize %></span>
+                        <span class="title"><%= current_user.email.capitalize %></span>
                         <span class="message">Lorem ipsum dolor sit.</span>
                       </li>
                       <li>
                         <figure class="image rounded">
-                          <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= @current_user.full_name.capitalize %>" class="rounded-circle">
+                          <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= current_user.email.capitalize %>" class="rounded-circle">
                         </figure>
-                        <span class="title"><%= @current_user.full_name.capitalize %></span>
+                        <span class="title"><%= current_user.email.capitalize %></span>
                         <span class="message">Lorem ipsum dolor sit.</span>
                       </li>
                       <li>
                         <figure class="image rounded">
-                          <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= @current_user.full_name.capitalize %>" class="rounded-circle">
+                          <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= current_user.email.capitalize %>" class="rounded-circle">
                         </figure>
-                        <span class="title"><%= @current_user.full_name.capitalize %></span>
+                        <span class="title"><%= current_user.email.capitalize %></span>
                         <span class="message">Lorem ipsum dolor sit.</span>
                       </li>
                     </ul>
@@ -568,23 +568,23 @@
             <ul class="simple-user-list">
               <li>
                 <figure class="image rounded">
-                  <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= @current_user.full_name.capitalize %>" class="rounded-circle">
+                  <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= current_user.email.capitalize %>" class="rounded-circle">
                 </figure>
-                <span class="title"><%= @current_user.full_name.capitalize %></span>
+                <span class="title"><%= current_user.email.capitalize %></span>
                 <span class="message truncate">Lorem ipsum dolor sit.</span>
               </li>
               <li>
                 <figure class="image rounded">
-                  <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= @current_user.full_name.capitalize %>" class="rounded-circle">
+                  <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= current_user.email.capitalize %>" class="rounded-circle">
                 </figure>
-                <span class="title"><%= @current_user.full_name.capitalize %></span>
+                <span class="title"><%= current_user.email.capitalize %></span>
                 <span class="message truncate">Lorem ipsum dolor sit.</span>
               </li>
               <li>
                 <figure class="image rounded">
-                  <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= @current_user.full_name.capitalize %>" class="rounded-circle">
+                  <img src="<%= asset_path '!sample-user.jpg' %>" alt="<%= current_user.email.capitalize %>" class="rounded-circle">
                 </figure>
-                <span class="title"><%= @current_user.full_name.capitalize %></span>
+                <span class="title"><%= current_user.email.capitalize %></span>
                 <span class="message truncate">Lorem ipsum dolor sit.</span>
               </li>
             </ul>

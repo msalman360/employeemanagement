@@ -191,9 +191,9 @@
         <figure class="profile-picture">
           <img src="<%= asset_path '!logged-user.jpg' %>" alt="Joseph Doe" class="rounded-circle" data-lock-picture="<%= asset_path '!logged-user.jpg' %>" />
         </figure>
-        <div class="profile-info" data-lock-name="<%= @current_user.full_name.capitalize %>" data-lock-email="<%= @current_user.email %>">
-          <span class="name"><%= @current_user.full_name.capitalize %></span>
-          <span class="role"><%= @current_user.user_type.upcase %></span>
+        <div class="profile-info" data-lock-name="<%= @current_user.email.capitalize %>" data-lock-email="<%= @current_user.email %>">
+          <span class="name"><%= @current_user.email.capitalize %></span>
+          <span class="role">admin</span>
         </div>
 
         <i class="fa custom-caret"></i>

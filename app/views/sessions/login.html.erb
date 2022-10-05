@@ -1,7 +1,7 @@
 <!-- start: page -->
 <section class="body-sign">
   <div class="center-sign">
-    <a href="/" class="logo float-left">
+    <a href="/app/assets/config" class="logo float-left">
       <img src="<%= asset_path 'Logo-1.png' %>" height="70" alt="Porto Admin" />
     </a>
 
@@ -10,11 +10,11 @@
         <h2 class="title text-uppercase font-weight-bold m-0"><i class="bx bx-user-circle me-1 text-6 position-relative top-5"></i> Sign In</h2>
       </div>
       <div class="card-body">
-        <form action="create_session" method="post">
+        <%= form_with(scope: :session, url: create_path) do |f| %>
           <div class="form-group mb-3">
             <label>Username</label>
             <div class="input-group">
-              <input name="email" type="email" class="form-control form-control-lg" />
+              <%= f.email_field :email, class: "form-control" ,placeholder: "Email",class: "form-control form-control-lg" %>
               <span class="input-group-text">
 										<i class="bx bx-user text-4"></i>
 									</span>
@@ -27,7 +27,7 @@
               <!--                <a href="pages-recover-password.html" class="float-end">Lost Password?</a>-->
             </div>
             <div class="input-group">
-              <input name="password" type="password" class="form-control form-control-lg" />
+              <%= f.password_field :password, class: "form-control" ,placeholder: "Password" ,class: "form-control form-control-lg"%>
               <span class="input-group-text">
 										<i class="bx bx-lock text-4"></i>
 									</span>
@@ -38,11 +38,11 @@
             <div class="col-sm-8">
             </div>
             <div class="col-sm-4 text-end">
-              <button type="submit" class="btn btn-primary mt-2">Sign In</button>
+              <%= f.button "Sign In", class: "btn btn-primary mt-2", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Signing in..."} %>
             </div>
           </div>
 
-        </form>
+<% end %>
       </div>
     </div>
 
