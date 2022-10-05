@@ -13,25 +13,33 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
-
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "bootstrap", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "animate.compat", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "toastr.min.css", "data-turbo-track": "reload" %>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <%= stylesheet_link_tag "magnific-popup", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "bootstrap-datepicker3", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "select2.css", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "select2-bootstrap.min", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "pnotify.custom", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "jquery-ui.css", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "jquery-ui.theme", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "bootstrap-multiselect", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "bootstrap-tagsinput", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "bootstrap-colorpicker", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "bootstrap-timepicker", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "basic", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "dropzone", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "bootstrap-markdown.min", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "summernote-bs4", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "codemirror", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "monokai", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "morris", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "theme", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <%= javascript_include_tag 'modernizr', 'data-turbolinks-track': 'reload' %>
 </head>
 
@@ -41,7 +49,10 @@
     <%= render 'layouts/header' %>
     <div class="inner-wrapper">
       <%= render 'layouts/aside-left' %>
-      <%= yield %>
+      <section role="main" class="content-body">
+        <%= render 'layouts/header2' %>
+        <%= yield %>
+      </section>
     </div>
     <%= render 'layouts/aside-right' %>
   </section>
@@ -56,12 +67,32 @@
 <%= javascript_include_tag 'pnotify.custom', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'bootstrap.bundle.min', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'bootstrap-datepicker', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'jquery-ui', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'jquery.ui.touch-punch', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'select2', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'common', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'nanoscroller', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'jquery.magnific-popup', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'jquery.placeholder', 'data-turbolinks-track': 'reload' %>
-<%= javascript_include_tag 'jquery-ui', 'data-turbolinks-track': 'reload' %>
-<%= javascript_include_tag 'jquery.ui.touch-punch', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'jquery.maskedinput', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'bootstrap-tagsinput', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'bootstrap-colorpicker', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'bootstrap-timepicker', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'spinner', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'dropzone', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'markdown', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'to-markdown', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'bootstrap-markdown', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'codemirror', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'active-line', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'matchbrackets', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'javascript', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'xml', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'htmlmixed', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'css', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'summernote-bs4', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'bootstrap-maxlength', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'ios7-switch', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'jquery.appear', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'bootstrap-multiselect', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'jquery.easypiechart', 'data-turbolinks-track': 'reload' %>

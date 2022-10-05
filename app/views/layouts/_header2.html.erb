@@ -1,0 +1,21 @@
+<header class="page-header">
+  <h2><%= @module_name.gsub("_", " ").split.map(&:capitalize).join(' ') %></h2>
+  <div class="right-wrapper text-end">
+    <ol class="breadcrumbs">
+      <li>
+        <a href="#">
+          <i class="<%= @icon_name %>"></i>
+        </a>
+      </li>
+
+      <li><span><%= @module_name.gsub("_", " ").split.map(&:capitalize).join(' ') %></span></li>
+
+      <% if @sub_module_name.present? %>
+        <li><span><%= @sub_module_name.split.map(&:capitalize).join(' ') %></span></li>
+      <% end %>
+
+    </ol>
+
+    <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fas fa-chevron-left"></i></a>
+  </div>
+</header>

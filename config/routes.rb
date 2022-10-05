@@ -9,4 +9,7 @@ Rails.application.routes.draw do
   post 'create' => 'sessions#create'
   get 'logout' => 'sessions#destroy'
   get 'dashboard' => 'dashboards#index'
+
+  ##### USERS #####
+  get 'user' => 'users#index'
 end
