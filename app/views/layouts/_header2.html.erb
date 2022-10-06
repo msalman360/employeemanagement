@@ -1,5 +1,11 @@
 <header class="page-header">
-  <h2><%= @module_name.gsub("_", " ").split.map(&:capitalize).join(' ') %></h2>
+  <% if @sub_module_name.present? %>
+    <h2><%= @sub_module_name.split.map(&:capitalize).join(' ') %></h2>
+  <% else %>
+    <% if @module_name == "dashboard" %>
+      <h2><%= @module_name.gsub("_", " ").split.map(&:capitalize).join(' ') %></h2>
+    <% end %>
+  <% end %>
   <div class="right-wrapper text-end">
     <ol class="breadcrumbs">
       <li>
@@ -8,8 +14,9 @@
         </a>
       </li>
 
-      <li><span><%= @module_name.gsub("_", " ").split.map(&:capitalize).join(' ') %></span></li>
-
+      <% if @module_name.present? %>
+        <li><span><%= @module_name.gsub("_", " ").split.map(&:capitalize).join(' ') %></span></li>
+      <% end %>
       <% if @sub_module_name.present? %>
         <li><span><%= @sub_module_name.split.map(&:capitalize).join(' ') %></span></li>
       <% end %>

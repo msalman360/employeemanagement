@@ -8,8 +8,20 @@ Rails.application.routes.draw do
   ##### SESSIONS #####
   post 'create' => 'sessions#create'
   get 'logout' => 'sessions#destroy'
+
+  ##### DASHBOARDS #####
   get 'dashboard' => 'dashboards#index'
 
   ##### USERS #####
   get 'user' => 'users#index'
+  post 'new_user' => 'users#create'
+
+  ##### MENUS #####
+  get 'menu' => 'menus#index'
+  post 'new_menu' => 'menus#create'
+
+  ##### PERMISSIONS #####
+  get 'permission' => 'permissions#index'
+  post 'new_permission' => 'permissions#create'
+
 end

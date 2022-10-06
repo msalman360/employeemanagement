@@ -16,7 +16,7 @@
 
         <ul class="nav nav-main">
           <li>
-            <a class="nav-link" href="<%= dashboard_path %>">
+            <a class="nav-link" href="<%= dashboard_path %>" onclick="loading_screen()">
               <i class="bx bx-home-alt" aria-hidden="true"></i>
               <span>Dashboard</span>
             </a>
@@ -28,23 +28,33 @@
             </a>
             <ul class="nav nav-children">
               <li>
-                <a class="nav-link" href="<%= user_path %>">
+                <a class="nav-link" href="<%= user_path %>" onclick="loading_screen()">
                   Users
                 </a>
               </li>
               <li>
-                <a class="nav-link" href="ecommerce-products-list.html">
+                <a class="nav-link" href="#">
                   Locations
                 </a>
               </li>
               <li>
-                <a class="nav-link" href="ecommerce-products-form.html">
+                <a class="nav-link" href="#">
                   Categories
                 </a>
               </li>
               <li>
-                <a class="nav-link" href="ecommerce-category-list.html">
-                  Roles & Permissions
+                <a class="nav-link" href="<%= menu_path %>" onclick="loading_screen()">
+                  Menu
+                </a>
+              </li>
+              <li>
+                <a class="nav-link" href="#">
+                  Roles
+                </a>
+              </li>
+              <li>
+                <a class="nav-link" href="<%= permission_path %>" onclick="loading_screen()">
+                  Permissions
                 </a>
               </li>
             </ul>

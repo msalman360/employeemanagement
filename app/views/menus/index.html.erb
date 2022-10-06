@@ -10,43 +10,23 @@
       </header>
       <div class="card-body">
         <!-- Modal Bootstrap -->
-        <%= form_with url: new_user_path, method: :post, id: 'myForm', multipart: true do |form| %>
+        <%= form_with url: new_menu_path, method: :post, id: 'myForm', multipart: true do |form| %>
           <div class="row">
             <div class="row form-group pb-3">
               <div class="col-lg-4">
                 <div class="form-group">
-                  <label class="col-form-label" for="formGroupExampleInput">User Type <span style="color: red">*</span></label>
-                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select a User Type", "allowClear": true }' name="user_type">
+                  <label class="col-form-label" for="formGroupExampleInput">Menu Type <span style="color: red">*</span></label>
+                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select a Menu Type", "allowClear": true }' name="menu_type">
                     <option selected></option>
-                    <option value="administrator">Administrator</option>
-                    <option value="user">User</option>
+                    <option value="main_menu">Main Menu</option>
+                    <option value="sub_menu">Sub Menu</option>
                   </select>
                 </div>
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <label class="col-form-label" for="formGroupExampleInput">Full Name <span style="color: red">*</span></label>
-                  <input required type="text" name="full_name" class="form-control" id="formGroupExampleInput" value="<%= "System User" %>" placeholder="Enter Full Name">
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label class="col-form-label" for="formGroupExampleInput">Email <span style="color: red">*</span></label>
-                  <input required type="email" name="email" class="form-control" id="formGroupExampleInput" placeholder="Enter Email">
-                </div>
-              </div>
-            </div>
-            <div class="form-group row pb-3">
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label class="col-form-label" for="formGroupExampleInput">Password <span style="color: red">*</span></label>
-                  <input required type="password" name="password" class="form-control" id="formGroupExampleInput" placeholder="Enter Password">
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label class="col-form-label" for="formGroupExampleInput">Re Enter Password <span style="color: red">*</span></label>
-                  <input required type="password" name="re_password" class="form-control" id="formGroupExampleInput" placeholder="Enter Password Again">
+                  <label class="col-form-label" for="formGroupExampleInput">Menu Name <span style="color: red">*</span></label>
+                  <input required type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Enter Menu Name">
                 </div>
               </div>
               <div class="col-lg-4">
@@ -90,32 +70,22 @@
               <thead>
               <tr>
                 <th>Sr #</th>
-                <th>User Name</th>
-                <th>User Email</th>
-                <th>User Type</th>
-                <th>Is Role/Permission Assigned?</th>
+                <th>Name</th>
+                <th>Menu Type</th>
                 <th>Is Active?</th>
                 <th>Action</th>
               </tr>
               </thead>
               <tbody>
-              <% if @users.present? %>
+              <% if @menus.present? %>
                 <% count = 1 %>
-                <% @users.order("created_at ASC").each do |user| %>
+                <% @menus.each do |menu| %>
                   <tr>
                     <td><%= count %></td>
-                    <td><%= user.full_name %></td>
-                    <td><%= user.email %></td>
-                    <td><%= user.user_type.capitalize %></td>
+                    <td><%= menu.name.capitalize %></td>
+                    <td><%= menu.menu_type.gsub("_", " ").split.map(&:capitalize).join(' ') %></td>
                     <td>
-                      <% if user.is_role_assigned == true %>
-                        <span class="badge badge-success">Yes</span>
-                      <% else %>
-                        <span class="badge badge-danger">No</span>
-                      <% end %>
-                    </td>
-                    <td>
-                      <% if user.is_active == true %>
+                      <% if menu.is_active == true %>
                         <span class="badge badge-success">Active</span>
                       <% else %>
                         <span class="badge badge-danger">In Active</span>
@@ -125,45 +95,33 @@
                       <!-- Edit Button -->
                       <button type="button" class="btn btn-outline-dark rounded-circle"><span class="bx bx-edit"></span></button>
                       <!-- View Button -->
-                      <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= user.id %>"><span class="bx bx-low-vision"></span></button>
-                      <div class="modal" id="modalBootstrapview<%= user.id %>" tabindex="-1" role="dialog">
+                      <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= menu.id %>"><span class="bx bx-low-vision"></span></button>
+                      <div class="modal" id="modalBootstrapview<%= menu.id %>" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title">View User</h5>
+                              <h5 class="modal-title">View Menu</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                               <div class="row">
                                 <div class="row form-group pb-3">
-                                  <div class="col-lg-4">
+                                  <div class="col-lg-8">
                                     <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">User Type <span style="color: red">*</span></label>
-                                      <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= user.user_type.capitalize %>">
+                                      <label class="col-form-label" for="formGroupExampleInput">Name <span style="color: red">*</span></label>
+                                      <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= menu.name.capitalize %>">
                                     </div>
                                   </div>
-                                  <div class="col-lg-4">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Full Name <span style="color: red">*</span></label>
-                                      <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= user.full_name %>">
-                                    </div>
-                                  </div>
-                                  <div class="col-lg-4">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Email <span style="color: red">*</span></label>
-                                      <input disabled type="email" class="form-control" id="formGroupExampleInput" value="<%= user.email %>">
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="form-group row pb-3">
                                   <div class="col-lg-4">
                                     <div class="form-group">
                                       <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
-                                        <% if user.is_active == true %>
-                                          <span class="badge-success badge">Active</span>
+                                      <div class="switch switch-success">
+                                        <% if menu.is_active == true %>
+                                          <input readonly disabled type="checkbox"  data-plugin-ios-switch checked="checked" />
                                         <% else %>
-                                        <span class="badge-danger badge">In-Active</span>
+                                          <input readonly disabled type="checkbox"  data-plugin-ios-switch />
                                         <% end %>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>

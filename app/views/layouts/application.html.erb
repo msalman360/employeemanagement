@@ -21,6 +21,7 @@
   <%= stylesheet_link_tag "bootstrap-datepicker3", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "select2.css", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "select2-bootstrap.min", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "dataTables.bootstrap5", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "pnotify.custom", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "jquery-ui.css", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "jquery-ui.theme", "data-turbo-track": "reload" %>
@@ -38,12 +39,14 @@
   <%= stylesheet_link_tag "theme", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "loader", "data-turbo-track": "reload" %>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <%= javascript_include_tag 'modernizr', 'data-turbolinks-track': 'reload' %>
 </head>
 
 <body>
+<div class="loading" id="loading" style="display: none">Loading</div>
 <% if current_user.present? %>
   <section class="body">
     <%= render 'layouts/header' %>
@@ -57,7 +60,7 @@
     <%= render 'layouts/aside-right' %>
   </section>
 <% else %>
-    <%= yield %>
+  <%= yield %>
 <% end %>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <%= javascript_include_tag 'jquery', 'data-turbolinks-track': 'reload' %>
@@ -70,6 +73,15 @@
 <%= javascript_include_tag 'jquery-ui', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'jquery.ui.touch-punch', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'select2', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'jquery.dataTables.min', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'dataTables.bootstrap5.min', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'dataTables.buttons.min', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'buttons.bootstrap4.min', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'buttons.html5.min', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'buttons.print.min', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'jszip.min', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'pdfmake.min', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'vfs_fonts', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'common', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'nanoscroller', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'jquery.magnific-popup', 'data-turbolinks-track': 'reload' %>
@@ -120,6 +132,24 @@
 <%= javascript_include_tag 'custom', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'theme.init', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'examples.dashboard', 'data-turbolinks-track': 'reload' %>
+<%#= javascript_include_tag 'examples.datatables.default', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'examples.datatables.row.with.details', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'examples.datatables.tabletools', 'data-turbolinks-track': 'reload' %>
+<script>
+    $(document).ready(function(){
+        $("#myForm").on("submit", function(event){
+            document.getElementById("loading").style.display = "block";
+        });
+    });
+
+    function loading_screen(){
+        <% if @display.present? %>
+        document.getElementById("loading").style.display = "none";
+        <% else %>
+        document.getElementById("loading").style.display = "block";
+        <% end %>
+    }
+</script>
 </body>
 </html>
 <% if alert.present? %>

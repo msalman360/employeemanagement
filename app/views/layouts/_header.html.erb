@@ -1,7 +1,7 @@
 <!-- start: header -->
 <header class="header">
   <div class="logo-container">
-    <a href="<%= dashboard_path %>" class="logo">
+    <a href="<%= dashboard_path %>" class="logo" onclick="loading_screen()">
       <img src="<%= asset_path 'Logo-1.png' %>" width="75" height="35" alt="Porto Admin" />
     </a>
 
@@ -14,12 +14,12 @@
   <!-- start: search & user box -->
   <div class="header-right">
 
-<!--    <form action="pages-search-results.html" class="search nav-form">-->
-<!--      <div class="input-group">-->
-<!--        <input type="text" class="form-control" name="q" id="q" placeholder="Search...">-->
-<!--        <button class="btn btn-default" type="submit"><i class="bx bx-search"></i></button>-->
-<!--      </div>-->
-<!--    </form>-->
+    <!--    <form action="pages-search-results.html" class="search nav-form">-->
+    <!--      <div class="input-group">-->
+    <!--        <input type="text" class="form-control" name="q" id="q" placeholder="Search...">-->
+    <!--        <button class="btn btn-default" type="submit"><i class="bx bx-search"></i></button>-->
+    <!--      </div>-->
+    <!--    </form>-->
 
     <span class="separator"></span>
 
@@ -191,10 +191,12 @@
         <figure class="profile-picture">
           <img src="<%= asset_path '!logged-user.jpg' %>" alt="Joseph Doe" class="rounded-circle" data-lock-picture="<%= asset_path '!logged-user.jpg' %>" />
         </figure>
-        <div class="profile-info" data-lock-name="<%= @current_user.full_name.capitalize %>" data-lock-email="<%= @current_user.full_name %>">
-          <span class="name"><%= @current_user.full_name.capitalize %></span>
-          <span class="role"><%= @current_user.user_type.upcase %></span>
-        </div>
+        <% if @current_user.present? %>
+          <div class="profile-info" data-lock-name="<%= @current_user.full_name.capitalize %>" data-lock-email="<%= @current_user.full_name %>">
+            <span class="name"><%= @current_user.full_name.capitalize %></span>
+            <span class="role"><%= @current_user.user_type.upcase %></span>
+          </div>
+        <% end %>
 
         <i class="fa custom-caret"></i>
       </a>
@@ -205,11 +207,11 @@
           <li>
             <a role="menuitem" tabindex="-1" href="#"><i class="bx bx-user-circle"></i> My Profile</a>
           </li>
-<!--          <li>-->
-<!--            <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="bx bx-lock"></i> Lock Screen</a>-->
-<!--          </li>-->
+          <!--          <li>-->
+          <!--            <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="bx bx-lock"></i> Lock Screen</a>-->
+          <!--          </li>-->
           <li>
-            <a role="menuitem" tabindex="-1" href="<%= logout_path %>"><i class="bx bx-power-off"></i> Logout</a>
+            <a role="menuitem" tabindex="-1" href="<%= logout_path %>" onclick="loading_screen()"><i class="bx bx-power-off"></i> Logout</a>
           </li>
         </ul>
       </div>

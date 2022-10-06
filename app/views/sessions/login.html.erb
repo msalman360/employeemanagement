@@ -1,52 +1,56 @@
-<!-- start: page -->
-<section class="body-sign">
-  <div class="center-sign">
-    <a href="<%= root_path %>" class="logo float-left">
-      <img src="<%= asset_path 'Logo-1.png' %>" height="70" alt="Porto Admin" />
-    </a>
+<% if current_user.present? %>
 
-    <div class="panel card-sign">
-      <div class="card-title-sign mt-3 text-end">
-        <h2 class="title text-uppercase font-weight-bold m-0"><i class="bx bx-user-circle me-1 text-6 position-relative top-5"></i> Sign In</h2>
-      </div>
-      <div class="card-body">
-        <%= form_with(scope: :session, url: create_path) do |f| %>
-          <div class="form-group mb-3">
-            <label>Username</label>
-            <div class="input-group">
-              <%= f.email_field :email, class: "form-control" ,placeholder: "Email",class: "form-control form-control-lg" %>
-              <span class="input-group-text">
+<% else %>
+  <!-- start: page -->
+  <section class="body-sign">
+    <div class="center-sign">
+      <a href="<%= root_path %>" class="logo float-left">
+        <img src="<%= asset_path 'Logo-1.png' %>" height="70" alt="Porto Admin" />
+      </a>
+
+      <div class="panel card-sign">
+        <div class="card-title-sign mt-3 text-end">
+          <h2 class="title text-uppercase font-weight-bold m-0"><i class="bx bx-user-circle me-1 text-6 position-relative top-5"></i> Sign In</h2>
+        </div>
+        <div class="card-body">
+          <%= form_with(scope: :session, url: create_path, id: 'myForm') do |f| %>
+            <div class="form-group mb-3">
+              <label>Username</label>
+              <div class="input-group">
+                <%= f.email_field :email, class: "form-control" ,placeholder: "Email",class: "form-control form-control-lg" %>
+                <span class="input-group-text">
 										<i class="bx bx-user text-4"></i>
 									</span>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group mb-3">
-            <div class="clearfix">
-              <label class="float-left">Password</label>
-              <!--                <a href="pages-recover-password.html" class="float-end">Lost Password?</a>-->
-            </div>
-            <div class="input-group">
-              <%= f.password_field :password, class: "form-control" ,placeholder: "Password" ,class: "form-control form-control-lg"%>
-              <span class="input-group-text">
+            <div class="form-group mb-3">
+              <div class="clearfix">
+                <label class="float-left">Password</label>
+                <!--                <a href="pages-recover-password.html" class="float-end">Lost Password?</a>-->
+              </div>
+              <div class="input-group">
+                <%= f.password_field :password, class: "form-control" ,placeholder: "Password" ,class: "form-control form-control-lg"%>
+                <span class="input-group-text">
 										<i class="bx bx-lock text-4"></i>
 									</span>
+              </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-sm-8">
+            <div class="row">
+              <div class="col-sm-8">
+              </div>
+              <div class="col-sm-4 text-end">
+                <%= f.submit "Sign In", class: "btn btn-primary mt-2", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Signing in..."} %>
+              </div>
             </div>
-            <div class="col-sm-4 text-end">
-              <%= f.button "Sign In", class: "btn btn-primary mt-2", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Signing in..."} %>
-            </div>
-          </div>
 
-<% end %>
+          <% end %>
+        </div>
       </div>
-    </div>
 
-    <p class="text-center text-muted mt-3 mb-3">&copy; Copyright 2022-23. All Rights Reserved.</p>
-  </div>
-</section>
-<!-- end: page -->
+      <p class="text-center text-muted mt-3 mb-3">&copy; Copyright 2022-23. All Rights Reserved.</p>
+    </div>
+  </section>
+  <!-- end: page -->
+<% end %>

@@ -5367,6 +5367,13 @@ textarea.form-control-lg {
     max-width: 800px;
   }
 }
+
+@media (min-width: 1200px) {
+  .modal-lgg,
+  .modal-xll {
+    max-width: 1200px;
+  }
+}
 @media (min-width: 1200px) {
   .modal-xl {
     max-width: 1140px;
