@@ -208,7 +208,7 @@
                         </div>
                       </div>
                       <!-- View Button -->
-                      <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= user.id %>"><span class="bx bx-low-vision"></span></button>
+                      <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= user.id %>"><span class="bx bx-show"></span></button>
                       <div class="modal fade" id="modalBootstrapview<%= user.id %>" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
@@ -295,7 +295,7 @@
                         </div>
                       </div>
                       <!-- Change Password -->
-                      <button type="button" class="btn btn-outline-info rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapchangepass<%= user.id %>"><span class="bx bx-shape-circle"></span></button>
+                      <button type="button" class="btn btn-outline-info rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapchangepass<%= user.id %>"><span class="bx bx-key"></span></button>
                       <div class="modal fade" id="modalBootstrapchangepass<%= user.id %>" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-lg" role="document">
                           <%= form_with url: change_password_user_path, method: :post, id: 'myForm', multipart: true do |form| %>

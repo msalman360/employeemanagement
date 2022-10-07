@@ -95,23 +95,31 @@
                       <!-- Edit Button -->
                       <button type="button" class="btn btn-outline-dark rounded-circle"><span class="bx bx-edit"></span></button>
                       <!-- View Button -->
-                      <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= menu.id %>"><span class="bx bx-low-vision"></span></button>
+                      <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= menu.id %>"><span class="bx bx-show"></span></button>
                       <div class="modal fade" id="modalBootstrapview<%= menu.id %>" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title">View Menu</h5>
+                              <h5 class="modal-title">View <b>Menu</b></h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                               <div class="row">
                                 <div class="row form-group pb-3">
-                                  <div class="col-lg-8">
+                                  <div class="col-lg-6">
                                     <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Name <span style="color: red">*</span></label>
+                                      <label class="col-form-label" for="formGroupExampleInput">Menu Type <span style="color: red">*</span></label>
+                                      <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= menu.menu_type.capitalize %>">
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-6">
+                                    <div class="form-group">
+                                      <label class="col-form-label" for="formGroupExampleInput">Menu Name <span style="color: red">*</span></label>
                                       <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= menu.name.capitalize %>">
                                     </div>
                                   </div>
+                                </div>
+                                <div class="row form-group pb-3">
                                   <div class="col-lg-4">
                                     <div class="form-group">
                                       <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
