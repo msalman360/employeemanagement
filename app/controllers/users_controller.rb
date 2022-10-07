@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:full_name, :email, :password, :is_active, :user_type)
+    params.permit(:full_name, :email, :password, :is_active, :user_type, :role_id)
   end
   def set_module_name
     @module_name = "system_settings"

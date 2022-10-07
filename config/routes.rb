@@ -21,6 +21,10 @@ Rails.application.routes.draw do
   post 'new_menu' => 'menus#create'
 
   ##### PERMISSIONS #####
+  get 'role' => 'roles#index'
+  post 'new_role' => 'roles#create'
+
+  ##### PERMISSIONS #####
   get 'permission' => 'permissions#index'
   post 'new_permission' => 'permissions#create'
 

@@ -1,6 +1,6 @@
 class PermissionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_module_name,  :only => [:index]
+  before_action :set_module_name,  :only => [:index, :create]
 
   def index
     @sub_module_name = "permission"

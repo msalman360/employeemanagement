@@ -45,8 +45,13 @@
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <label class="col-form-label" for="formGroupExampleInput">Re Enter Password <span style="color: red">*</span></label>
-                  <input required type="password" name="re_password" class="form-control" id="formGroupExampleInput" placeholder="Enter Password Again">
+                  <label class="col-form-label" for="formGroupExampleInput">Role <span style="color: red">*</span></label>
+                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select a Role", "allowClear": true }' name="role_id">
+                    <option selected></option>
+                    <% Role.where(:is_active => true).each do |role| %>
+                      <option value="<%= role.id %>"><%= role.name.capitalize %></option>
+                    <% end %>
+                  </select>
                 </div>
               </div>
               <div class="col-lg-4">
@@ -93,7 +98,7 @@
                 <th>User Name</th>
                 <th>User Email</th>
                 <th>User Type</th>
-                <th>Is Role/Permission Assigned?</th>
+                <th>Role/Permission</th>
                 <th>Is Active?</th>
                 <th>Action</th>
               </tr>
@@ -108,10 +113,10 @@
                     <td><%= user.email %></td>
                     <td><%= user.user_type.capitalize %></td>
                     <td>
-                      <% if user.is_role_assigned == true %>
-                        <span class="badge badge-success">Yes</span>
+                      <% if user.role.present? %>
+                        <span class="badge badge-dark"><%= user.role.name.capitalize %></span>
                       <% else %>
-                        <span class="badge badge-danger">No</span>
+                        <span class="badge badge-danger">Not Assigned</span>
                       <% end %>
                     </td>
                     <td>
@@ -123,14 +128,110 @@
                     </td>
                     <td>
                       <!-- Edit Button -->
-                      <button type="button" class="btn btn-outline-dark rounded-circle"><span class="bx bx-edit"></span></button>
+                      <button type="button" class="btn btn-outline-dark rounded-circle" data-bs-toggle="modal" data-bs-target="#userEdit<%= user.id %>"><span class="bx bx-edit"></span></button>
+                      <div class="modal" id="userEdit<%= user.id %>" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Update <b>User</b></h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row">
+                                <div class="row form-group pb-3">
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label class="col-form-label" for="formGroupExampleInput">User Type <span style="color: red">*</span></label>
+                                      <select required data-plugin-selectTwo class="form-control populate placeholder" style="width: 100%" data-plugin-options='{ "placeholder": "Select a User Type", "allowClear": true }' name="user_type">
+                                        <% if user.user_type == "user" %>
+                                          <option value="user" selected><%= user.user_type %></option>
+                                          <option value="administrator">Administrator</option>
+                                        <% else %>
+                                          <option value="administrator" selected><%= user.user_type %></option>
+                                          <option value="user">User</option>
+                                        <% end %>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label class="col-form-label" for="formGroupExampleInput">Full Name <span style="color: red">*</span></label>
+                                      <input required type="text" name="full_name" class="form-control" id="formGroupExampleInput" value="<%= user.full_name %>" placeholder="Enter Full Name">
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label class="col-form-label" for="formGroupExampleInput">Email <span style="color: red">*</span></label>
+                                      <input required type="email" name="email" class="form-control" id="formGroupExampleInput" value="<%= user.email %>" placeholder="Enter Email">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group row pb-3">
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label class="col-form-label" for="formGroupExampleInput">Password <span style="color: red">*</span></label>
+                                      <input required type="password" name="password" class="form-control" <%= user.password %> id="formGroupExampleInput" placeholder="Enter Password">
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label class="col-form-label" for="formGroupExampleInput">Role <span style="color: red">*</span></label><br>
+                                      <select required data-plugin-selectTwo class="form-control populate placeholder" style="width: 100%" data-plugin-options='{ "placeholder": "Select a Role", "allowClear": true }' name="role_id">
+                                        <option selected></option>
+                                        <% Role.where(:is_active => true).each do |role| %>
+                                          <option value="<%= role.id %>"><%= role.name.capitalize %></option>
+                                        <% end %>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
+                                      <div class="switch switch-success">
+                                        <% if user.is_active == true %>
+                                          <input required type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                                        <% else %>
+                                          <input required type="checkbox" name="is_active" data-plugin-ios-switch />
+                                        <% end %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <!-- View Button -->
+                      <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= user.id %>"><span class="bx bx-low-vision"></span></button>
+                      <div class="modal" id="modalBootstrapview<%= user.id %>" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lgg" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">View <b>Role</b></h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row p-2">
+                              </div>
+                              <hr>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                       <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= user.id %>"><span class="bx bx-low-vision"></span></button>
                       <div class="modal" id="modalBootstrapview<%= user.id %>" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title">View User</h5>
+                              <h5 class="modal-title">View <b>User</b></h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -158,12 +259,18 @@
                                 <div class="form-group row pb-3">
                                   <div class="col-lg-4">
                                     <div class="form-group">
+                                      <label class="col-form-label" for="formGroupExampleInput">Role <span style="color: red">*</span></label>
+                                      <input disabled type="email" class="form-control" id="formGroupExampleInput" value="<%= user.role.name.capitalize %>">
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
                                       <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
-                                        <% if user.is_active == true %>
-                                          <span class="badge-success badge">Active</span>
-                                        <% else %>
+                                      <% if user.is_active == true %>
+                                        <span class="badge-success badge">Active</span>
+                                      <% else %>
                                         <span class="badge-danger badge">In-Active</span>
-                                        <% end %>
+                                      <% end %>
                                     </div>
                                   </div>
                                 </div>
