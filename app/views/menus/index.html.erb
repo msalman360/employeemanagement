@@ -16,7 +16,7 @@
               <div class="col-lg-4">
                 <div class="form-group">
                   <label class="col-form-label" for="formGroupExampleInput">Menu Type <span style="color: red">*</span></label>
-                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select a Menu Type", "allowClear": true }' name="menu_type">
+                  <select required class="form-control sumoselect2" name="menu_type" placeholder="Select Menu Type">
                     <option selected></option>
                     <option value="main_menu">Main Menu</option>
                     <option value="sub_menu">Sub Menu</option>
@@ -96,7 +96,7 @@
                       <button type="button" class="btn btn-outline-dark rounded-circle"><span class="bx bx-edit"></span></button>
                       <!-- View Button -->
                       <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= menu.id %>"><span class="bx bx-low-vision"></span></button>
-                      <div class="modal" id="modalBootstrapview<%= menu.id %>" tabindex="-1" role="dialog">
+                      <div class="modal fade" id="modalBootstrapview<%= menu.id %>" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -115,13 +115,11 @@
                                   <div class="col-lg-4">
                                     <div class="form-group">
                                       <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
-                                      <div class="switch switch-success">
-                                        <% if menu.is_active == true %>
-                                          <input readonly disabled type="checkbox"  data-plugin-ios-switch checked="checked" />
-                                        <% else %>
-                                          <input readonly disabled type="checkbox"  data-plugin-ios-switch />
-                                        <% end %>
-                                      </div>
+                                      <% if menu.is_active == true %>
+                                        <span class="badge-success badge">Active</span>
+                                      <% else %>
+                                        <span class="badge-danger badge">In-Active</span>
+                                      <% end %>
                                     </div>
                                   </div>
                                 </div>

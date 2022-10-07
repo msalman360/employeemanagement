@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   ##### USERS #####
   get 'user' => 'users#index'
   post 'new_user' => 'users#create'
+  post 'update_user' => 'users#update'
+  post 'delete_user' => 'users#destroy'
+  post 'change_password_user' => 'users#change_password'
 
   ##### MENUS #####
   get 'menu' => 'menus#index'

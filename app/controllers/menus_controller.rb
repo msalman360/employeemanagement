@@ -11,6 +11,9 @@ class MenusController < ApplicationController
     menu = Menu.new(menu_params)
     menu.slug = params[:name].gsub(" ", "_").downcase
     if menu.save
+      Role.all.each do |role|
+        Permission.create(:menu_id => Menu.last.id, :role_id => role.id)
+      end
       flash[:notice] = "User Created Successfully"
     else
       if menu.errors.full_messages.first == "Name has already been taken"

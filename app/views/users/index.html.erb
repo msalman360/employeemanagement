@@ -16,7 +16,7 @@
               <div class="col-lg-4">
                 <div class="form-group">
                   <label class="col-form-label" for="formGroupExampleInput">User Type <span style="color: red">*</span></label>
-                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select a User Type", "allowClear": true }' name="user_type">
+                  <select required class="form-control sumoselect2" name="user_type" placeholder="Select User Type">
                     <option selected></option>
                     <option value="administrator">Administrator</option>
                     <option value="user">User</option>
@@ -46,7 +46,7 @@
               <div class="col-lg-4">
                 <div class="form-group">
                   <label class="col-form-label" for="formGroupExampleInput">Role <span style="color: red">*</span></label>
-                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select a Role", "allowClear": true }' name="role_id">
+                  <select required class="form-control sumoselect2" name="role_id" placeholder="Select Role">
                     <option selected></option>
                     <% Role.where(:is_active => true).each do |role| %>
                       <option value="<%= role.id %>"><%= role.name.capitalize %></option>
@@ -128,106 +128,88 @@
                     </td>
                     <td>
                       <!-- Edit Button -->
-                      <button type="button" class="btn btn-outline-dark rounded-circle" data-bs-toggle="modal" data-bs-target="#userEdit<%= user.id %>"><span class="bx bx-edit"></span></button>
-                      <div class="modal" id="userEdit<%= user.id %>" tabindex="-1" role="dialog">
+                      <button type="button" class="btn btn-outline-dark rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapedit<%= user.id %>"><span class="bx bx-edit"></span></button>
+                      <div class="modal fade" id="modalBootstrapedit<%= user.id %>" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Update <b>User</b></h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="row">
-                                <div class="row form-group pb-3">
-                                  <div class="col-lg-4">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">User Type <span style="color: red">*</span></label>
-                                      <select required data-plugin-selectTwo class="form-control populate placeholder" style="width: 100%" data-plugin-options='{ "placeholder": "Select a User Type", "allowClear": true }' name="user_type">
-                                        <% if user.user_type == "user" %>
-                                          <option value="user" selected><%= user.user_type %></option>
-                                          <option value="administrator">Administrator</option>
-                                        <% else %>
-                                          <option value="administrator" selected><%= user.user_type %></option>
-                                          <option value="user">User</option>
-                                        <% end %>
-                                      </select>
+                          <%= form_with url: update_user_path, method: :post, id: 'myForm', multipart: true do |form| %>
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Update <b>User</b></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <input hidden type="text" name="id" value="<%= user.id %>">
+                                <div class="row">
+                                  <div class="row form-group pb-3">
+                                    <div class="col-lg-4">
+                                      <div class="form-group">
+                                        <label class="col-form-label" for="formGroupExampleInput">User Type <span style="color: red">*</span></label>
+                                        <select required class="form-control sumoselect2" name="user_type" placeholder="Select User Type">
+                                          <% if user.user_type == "user" %>
+                                            <option value="user" selected><%= user.user_type.capitalize %></option>
+                                            <option value="administrator">Administrator</option>
+                                          <% else %>
+                                            <option value="administrator" selected><%= user.user_type.capitalize %></option>
+                                            <option value="user">User</option>
+                                          <% end %>
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <div class="form-group">
+                                        <label class="col-form-label" for="formGroupExampleInput">Full Name <span style="color: red">*</span></label>
+                                        <input required type="text" name="full_name" class="form-control" id="formGroupExampleInput" value="<%= user.full_name %>" placeholder="Enter Full Name">
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <div class="form-group">
+                                        <label class="col-form-label" for="formGroupExampleInput">Email <span style="color: red">*</span></label>
+                                        <input required type="email" name="email" class="form-control" id="formGroupExampleInput" value="<%= user.email %>" placeholder="Enter Email">
+                                      </div>
                                     </div>
                                   </div>
-                                  <div class="col-lg-4">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Full Name <span style="color: red">*</span></label>
-                                      <input required type="text" name="full_name" class="form-control" id="formGroupExampleInput" value="<%= user.full_name %>" placeholder="Enter Full Name">
+                                  <div class="form-group row pb-3">
+                                    <div class="col-lg-4">
+                                      <div class="form-group">
+                                        <label class="col-form-label" for="formGroupExampleInput">Role <span style="color: red">*</span></label><br>
+                                        <select required class="form-control sumoselect2" name="role_id" placeholder="Select Role">
+                                          <% if user.role.present? %>
+                                            <option value="<%= user.role_id %>" selected><%= user.role.name.capitalize %></option>
+                                          <% else %>
+                                            <option selected></option>
+                                          <% end %>
+                                          <% Role.where(:is_active => true).where.not(:id => user.role_id).each do |role| %>
+                                            <option value="<%= role.id %>"><%= role.name.capitalize %></option>
+                                          <% end %>
+                                        </select>
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div class="col-lg-4">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Email <span style="color: red">*</span></label>
-                                      <input required type="email" name="email" class="form-control" id="formGroupExampleInput" value="<%= user.email %>" placeholder="Enter Email">
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="form-group row pb-3">
-                                  <div class="col-lg-4">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Password <span style="color: red">*</span></label>
-                                      <input required type="password" name="password" class="form-control" <%= user.password %> id="formGroupExampleInput" placeholder="Enter Password">
-                                    </div>
-                                  </div>
-                                  <div class="col-lg-4">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Role <span style="color: red">*</span></label><br>
-                                      <select required data-plugin-selectTwo class="form-control populate placeholder" style="width: 100%" data-plugin-options='{ "placeholder": "Select a Role", "allowClear": true }' name="role_id">
-                                        <option selected></option>
-                                        <% Role.where(:is_active => true).each do |role| %>
-                                          <option value="<%= role.id %>"><%= role.name.capitalize %></option>
-                                        <% end %>
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div class="col-lg-4">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
-                                      <div class="switch switch-success">
-                                        <% if user.is_active == true %>
-                                          <input required type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
-                                        <% else %>
-                                          <input required type="checkbox" name="is_active" data-plugin-ios-switch />
-                                        <% end %>
+                                    <div class="col-lg-4">
+                                      <div class="form-group">
+                                        <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
+                                        <div class="switch switch-success">
+                                          <% if user.is_active == true %>
+                                            <input type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                                          <% else %>
+                                            <input type="checkbox" name="is_active" data-plugin-ios-switch />
+                                          <% end %>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
+                              <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary float-end">Update</button>
+                                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                              </div>
                             </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                            </div>
-                          </div>
+                          <% end %>
                         </div>
                       </div>
                       <!-- View Button -->
                       <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= user.id %>"><span class="bx bx-low-vision"></span></button>
-                      <div class="modal" id="modalBootstrapview<%= user.id %>" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-lgg" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">View <b>Role</b></h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="row p-2">
-                              </div>
-                              <hr>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= user.id %>"><span class="bx bx-low-vision"></span></button>
-                      <div class="modal" id="modalBootstrapview<%= user.id %>" tabindex="-1" role="dialog">
+                      <div class="modal fade" id="modalBootstrapview<%= user.id %>" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -260,7 +242,11 @@
                                   <div class="col-lg-4">
                                     <div class="form-group">
                                       <label class="col-form-label" for="formGroupExampleInput">Role <span style="color: red">*</span></label>
-                                      <input disabled type="email" class="form-control" id="formGroupExampleInput" value="<%= user.role.name.capitalize %>">
+                                      <% if user.role.present? %>
+                                        <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= user.role.name.capitalize %>">
+                                      <% else %>
+                                        <input disabled type="text" class="form-control" id="formGroupExampleInput" value="Not Assigned">
+                                      <% end %>
                                     </div>
                                   </div>
                                   <div class="col-lg-4">
@@ -283,7 +269,68 @@
                         </div>
                       </div>
                       <!-- Delete Button -->
-                      <button type="button" class="btn btn-outline-danger rounded-circle"><span class="bx bx-trash"></span></button>
+                      <button type="button" class="btn btn-outline-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= user.id %>"><span class="bx bx-trash"></span></button>
+                      <div class="modal fade" id="modalBootstrapdelete<%= user.id %>" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                          <%= form_with url: delete_user_path, method: :post, id: 'myForm', multipart: true do |form| %>
+                            <div class="modal-content">
+                              <div class="modal-header" style="background: #702329">
+                                <h5 class="modal-title"><b>Are You Sure You Want To Delete User</b>???</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <input hidden type="text" name="id" value="<%= user.id %>">
+                                <div class="row">
+                                  <div class="col-lg-2"></div>
+                                  <div class="col-lg-4">
+                                    <button type="submit" class="btn btn-success float-start">Yes</button>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <button type="button" class="btn btn-warning float-end" data-bs-dismiss="modal">No</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+                      <!-- Change Password -->
+                      <button type="button" class="btn btn-outline-info rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapchangepass<%= user.id %>"><span class="bx bx-shape-circle"></span></button>
+                      <div class="modal fade" id="modalBootstrapchangepass<%= user.id %>" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                          <%= form_with url: change_password_user_path, method: :post, id: 'myForm', multipart: true do |form| %>
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Change Password <b>User</b></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <input hidden type="text" name="id" value="<%= user.id %>">
+                                <div class="row">
+                                  <div class="row form-group pb-3">
+                                    <div class="col-lg-6">
+                                      <div class="form-group">
+                                        <label class="col-form-label" for="formGroupExampleInput">Current Password <span style="color: red">*</span></label>
+                                        <input required type="password" name="old_password" class="form-control" id="formGroupExampleInput" placeholder="Enter Current Password">
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                      <div class="form-group">
+                                        <label class="col-form-label" for="formGroupExampleInput">New Password <span style="color: red">*</span></label>
+                                        <input required type="password" minlength="8" name="password" class="form-control" id="formGroupExampleInput" placeholder="Enter New Password">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary float-end">Update</button>
+                                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                   <% count += 1 %>

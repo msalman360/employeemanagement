@@ -42,7 +42,34 @@
   <%= stylesheet_link_tag "loader", "data-turbo-track": "reload" %>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <!-- Sumo Select -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.1.6/sumoselect.min.css">
   <%= javascript_include_tag 'modernizr', 'data-turbolinks-track': 'reload' %>
+  <style>
+      .SumoSelect {
+          width: 100%;
+      }
+
+      .SumoSelect .select-all{
+          height: 40px;
+      }
+
+      .SumoSelect .select-all.partial>span i, .SumoSelect .select-all.selected>span i, .SumoSelect>.optWrapper.multiple>.options li.opt.selected span i {
+          background-color: #0c7bff;
+      }
+
+      .SumoSelect>.CaptionCont>span.placeholder {
+          color: #6c757d;
+          font-style: unset;
+      }
+
+      .SumoSelect>.CaptionCont {
+          position: relative;
+          border: 1px solid #ced4da;
+          border-radius: 0.25rem;
+      }
+
+  </style>
 </head>
 
 <body>
@@ -135,7 +162,11 @@
 <%#= javascript_include_tag 'examples.datatables.default', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'examples.datatables.row.with.details', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'examples.datatables.tabletools', 'data-turbolinks-track': 'reload' %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.1.6/jquery.sumoselect.min.js"></script>
 <script>
+
+    $('.sumoselect2').SumoSelect({ selectAll: true, search: true });
+
     $(document).ready(function(){
         $("#myForm").on("submit", function(event){
             document.getElementById("loading").style.display = "block";
