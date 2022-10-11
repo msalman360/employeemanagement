@@ -1,10 +1,30 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_module_name,  :only => [:index, :create]
+  before_action :set_module_name,  :only => [:index, :create, :show, :destroy, :change_password]
 
   def index
-    @sub_module_name = "users"
     @users = User.all
+  end
+
+  def show
+    if params[:is_active].present?
+      params[:is_active] = true
+    else
+      params[:is_active] = false
+    end
+    @users = User.where(:is_active => params[:is_active])
+    if params[:user_type].present?
+      @users = @users.where(:user_type => params[:user_type])
+    end
+    if params[:role_id].present?
+      @users = @users.where(:role_id => params[:role_id])
+    end
+    if @users.present?
+      flash[:notice] = "User Found Successfully"
+    else
+      flash[:alert] = "No Record Found"
+    end
+    render 'users/index'
   end
 
   def create
@@ -68,6 +88,7 @@ class UsersController < ApplicationController
   end
   def set_module_name
     @module_name = "system_settings"
+    @sub_module_name = "users"
     @icon_name = "bx bx-cog"
   end
 end

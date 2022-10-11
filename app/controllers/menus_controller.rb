@@ -1,10 +1,27 @@
 class MenusController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_module_name,  :only => [:index, :create]
+  before_action :set_module_name,  :only => [:index, :create, :show, :destroy]
 
   def index
-    @sub_module_name = "menus"
     @menus = Menu.all
+  end
+
+  def show
+    if params[:is_active].present?
+      params[:is_active] = true
+    else
+      params[:is_active] = false
+    end
+    @menus = Menu.where(:is_active => params[:is_active])
+    if params[:menu_type].present?
+      @menus = @menus.where(:menu_type => params[:menu_type])
+    end
+    if @menus.present?
+      flash[:notice] = "Menu Found Successfully"
+    else
+      flash[:alert] = "No Record Found"
+    end
+    render 'menus/index'
   end
 
   def create
@@ -57,6 +74,7 @@ class MenusController < ApplicationController
 
   def set_module_name
     @module_name = "system_settings"
+    @sub_module_name = "menus"
     @icon_name = "bx bx-cog"
   end
 end

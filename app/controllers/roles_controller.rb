@@ -1,10 +1,24 @@
 class RolesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_module_name,  :only => [:index, :create]
+  before_action :set_module_name,  :only => [:index, :create, :show, :destroy]
 
   def index
-    @sub_module_name = "roles"
     @roles = Role.all
+  end
+
+  def show
+    if params[:is_active].present?
+      params[:is_active] = true
+    else
+      params[:is_active] = false
+    end
+    @roles = Role.where(:is_active => params[:is_active])
+    if @roles.present?
+      flash[:notice] = "Role Found Successfully"
+    else
+      flash[:alert] = "No Record Found"
+    end
+    render 'roles/index'
   end
 
   def create
@@ -82,13 +96,14 @@ class RolesController < ApplicationController
 
   private
 
-  def set_module_name
-    @module_name = "system_settings"
-    @icon_name = "bx bx-cog"
-  end
-
   def role_params
     params.permit(:name, :is_active)
+  end
+
+  def set_module_name
+    @module_name = "system_settings"
+    @sub_module_name = "roles"
+    @icon_name = "bx bx-cog"
   end
 
 end

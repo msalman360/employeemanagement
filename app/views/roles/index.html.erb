@@ -8,166 +8,188 @@
 <% if Dashboard.check_permission(@sub_module_name, current_user, "create") %>
   <div class="row">
     <div class="col-lg-12">
-      <section class="card">
-        <header class="card-header">
-          <div class="card-actions">
-            <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
-          </div>
-          <h2 class="card-title">Create New <%= @sub_module_name.capitalize %>/Permissions</h2>
-        </header>
-        <div class="card-body">
-          <!-- Modal Bootstrap -->
-          <%= form_with url: new_role_path, method: :post, id: 'myForm', multipart: true do |form| %>
-            <a class="mb-1 mt-1 me-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalBootstrap" href="#"><span class="bx bx-plus"></span> Role</a>
-            <div class="modal" id="modalBootstrap" tabindex="-1" role="dialog">
-              <div class="modal-dialog modal-lgg" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Create New <b>Role/Permissions</b></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <a class="mb-1 mt-1 me-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalBootstrap" href="#"><span class="bx bx-plus"></span> Role</a>
+      <a class="mb-1 mt-1 me-1 btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#modalBootstrapfilter" href="#"><span class="bx bx-search"></span> Filter</a>
+      <!-- Create Modal -->
+      <%= form_with url: new_role_path, method: :post, id: 'myForm', multipart: true do |form| %>
+        <div class="modal" id="modalBootstrap" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lgg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Create New <b><%= @sub_module_name.capitalize %>/Permissions</b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row p-2">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="col-form-label" for="formGroupExampleInput">Role Name <span style="color: red">*</span></label>
+                      <input required type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Enter Role Name">
+                    </div>
                   </div>
-                  <div class="modal-body">
-                    <div class="row p-2">
-                      <div class="col-lg-6">
-                        <div class="form-group">
-                          <label class="col-form-label" for="formGroupExampleInput">Role Name <span style="color: red">*</span></label>
-                          <input required type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Enter Role Name">
-                        </div>
-                      </div>
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                          <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
-                          <div class="switch switch-success">
-                            <input required type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
-                          </div>
-                        </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
+                      <div class="switch switch-success">
+                        <input required type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
                       </div>
                     </div>
-                    <hr>
-                    <div class="row p-2">
-                      <div class="col-lg-12">
-                        <table class="table table-responsive-md table-bordered mb-0">
-                          <thead>
-                          <tr>
-                            <th>Menu Name</th>
-                            <th>Is Index?</th>
-                            <th>Is Create?</th>
-                            <th>Is View?</th>
-                            <th>Is Edit?</th>
-                            <th>Is Delete?</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <% Menu.order("id ASC").each do |menu| %>
-                            <input hidden type="text" name="menu_id[]" value="<%= menu.id %>">
-                            <tr>
-                              <td><%= menu.name.capitalize %></td>
-                              <td>
-                                <div class="col-lg-12">
-                                  <div class="form-group">
-                                    <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_index[]">
-                                      <option value="on">Yes</option>
-                                      <option value="off" selected>No</option>
-                                    </select>
-                                  </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row p-2">
+                  <div class="col-lg-12">
+                    <table class="table table-responsive-md table-bordered mb-0">
+                      <thead>
+                      <tr>
+                        <th>Menu Name</th>
+                        <th>Is Index?</th>
+                        <th>Is Create?</th>
+                        <th>Is View?</th>
+                        <th>Is Edit?</th>
+                        <th>Is Delete?</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <% Menu.order("id ASC").each do |menu| %>
+                        <input hidden type="text" name="menu_id[]" value="<%= menu.id %>">
+                        <tr>
+                          <td><%= menu.name.capitalize %></td>
+                          <td>
+                            <div class="col-lg-12">
+                              <div class="form-group">
+                                <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_index[]">
+                                  <option value="on">Yes</option>
+                                  <option value="off" selected>No</option>
+                                </select>
+                              </div>
+                            </div>
+                          </td>
+                          <% if menu.menu_type == "sub_menu" %>
+                            <td>
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_create[]">
+                                    <option value="on">Yes</option>
+                                    <option value="off" selected>No</option>
+                                  </select>
                                 </div>
-                              </td>
-                              <% if menu.menu_type == "sub_menu" %>
-                                <td>
-                                  <div class="col-lg-12">
-                                    <div class="form-group">
-                                      <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_create[]">
-                                        <option value="on">Yes</option>
-                                        <option value="off" selected>No</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="col-lg-12">
-                                    <div class="form-group">
-                                      <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_view[]">
-                                        <option value="on">Yes</option>
-                                        <option value="off" selected>No</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="col-lg-12">
-                                    <div class="form-group">
-                                      <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_edit[]">
-                                        <option value="on">Yes</option>
-                                        <option value="off" selected>No</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="col-lg-12">
-                                    <div class="form-group">
-                                      <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_delete[]">
-                                        <option value="on">Yes</option>
-                                        <option value="off" selected>No</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </td>
-                              <% else %>
-                                <td>
-                                  <div class="col-lg-12">
-                                    <div class="form-group">
-                                      <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_create[]">
-                                        <option value="off" selected>No</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="col-lg-12">
-                                    <div class="form-group">
-                                      <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_view[]">
-                                        <option value="off" selected>No</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="col-lg-12">
-                                    <div class="form-group">
-                                      <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_edit[]">
-                                        <option value="off" selected>No</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="col-lg-12">
-                                    <div class="form-group">
-                                      <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_delete[]">
-                                        <option value="off" selected>No</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </td>
-                              <% end %>
-                            </tr>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_view[]">
+                                    <option value="on">Yes</option>
+                                    <option value="off" selected>No</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_edit[]">
+                                    <option value="on">Yes</option>
+                                    <option value="off" selected>No</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_delete[]">
+                                    <option value="on">Yes</option>
+                                    <option value="off" selected>No</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </td>
+                          <% else %>
+                            <td>
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_create[]">
+                                    <option value="off" selected>No</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_view[]">
+                                    <option value="off" selected>No</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_edit[]">
+                                    <option value="off" selected>No</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <select required data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }' name="is_delete[]">
+                                    <option value="off" selected>No</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </td>
                           <% end %>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Create</button>
-                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                        </tr>
+                      <% end %>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+              </div>
             </div>
-          <% end %>
+          </div>
         </div>
-      </section>
+      <% end %>
+      <!-- Filter Modal -->
+      <%= form_with url: filter_role_path, method: :post, id: 'myForm', multipart: true do |form| %>
+        <div class="modal" id="modalBootstrapfilter" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Filter <b><%= @sub_module_name.capitalize %></b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="row form-group pb-3">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label" for="formGroupExampleInput">Is Active? </label><br>
+                        <div class="switch switch-success">
+                          <input type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 <% end %>
@@ -203,7 +225,7 @@
                   <tr>
                     <td><%= count %></td>
                     <td><%= role.name.capitalize %></td>
-                    <td><%= role.name %></td>
+                    <td><%= role.users.count %></td>
                     <td>
                       <% if role.is_active == true %>
                         <span class="badge badge-success">Active</span>
@@ -220,7 +242,7 @@
                             <%= form_with url: update_role_path, method: :post, id: 'myForm', multipart: true do |form| %>
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title">Update <b>Role/Permissions</b></h5>
+                                  <h5 class="modal-title">Update <b><%= @sub_module_name.capitalize %>/Permissions</b></h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -395,13 +417,13 @@
                         </div>
                       <% end %>
                       <!-- View Button -->
-                      <% if Dashboard.check_permission(@sub_module_name, current_user, "edit") %>
+                      <% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
                         <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= role.id %>"><span class="bx bx-low-vision"></span></button>
                         <div class="modal" id="modalBootstrapview<%= role.id %>" tabindex="-1" role="dialog">
                           <div class="modal-dialog modal-lgg" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 class="modal-title">View <b>Role/Permissions</b></h5>
+                                <h5 class="modal-title">View <b><%= @sub_module_name.capitalize %>/Permissions</b></h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div class="modal-body">
@@ -560,14 +582,14 @@
                         </div>
                       <% end %>
                       <!-- Delete Button -->
-                      <% if Dashboard.check_permission(@sub_module_name, current_user, "edit") %>
+                      <% if Dashboard.check_permission(@sub_module_name, current_user, "delete") %>
                         <button type="button" class="btn btn-outline-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= role.id %>"><span class="bx bx-trash"></span></button>
                         <div class="modal fade" id="modalBootstrapdelete<%= role.id %>" tabindex="-1" role="dialog">
                           <div class="modal-dialog" role="document">
                             <%= form_with url: delete_role_path, method: :post, id: 'myForm', multipart: true do |form| %>
                               <div class="modal-content">
                                 <div class="modal-header" style="background: #702329">
-                                  <h5 class="modal-title"><b>Are You Sure You Want To Delete Role/Permissions</b>???</h5>
+                                  <h5 class="modal-title"><b>Are You Sure You Want To Delete <%= @sub_module_name.capitalize %>/Permissions</b>???</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
