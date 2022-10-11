@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :set_module_name,  :only => [:index, :create]
 
   def index
-    @sub_module_name = "user"
+    @sub_module_name = "users"
     @users = User.all
   end
 

@@ -162,6 +162,7 @@
 <%#= javascript_include_tag 'examples.datatables.default', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'examples.datatables.row.with.details', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'examples.datatables.tabletools', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'sweetalert', 'data-turbolinks-track': 'reload' %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.1.6/jquery.sumoselect.min.js"></script>
 <script>
 
@@ -184,13 +185,27 @@
 </body>
 </html>
 <% if alert.present? %>
-  <script>
-      $(document).ready(function (){
-          toastr.options.timeout = 1200;
-          toastr.error('<%= alert %>');
-      });
-      <% flash[:alert] = nil %>
-  </script>
+  <% if params[:commit] == "Sign In" %>
+    <script>
+        $(document).ready(function (){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '<%= alert %>'
+            })
+        });
+        <% flash[:alert] = nil %>
+    </script>
+  <% else %>
+    <script>
+        $(document).ready(function (){
+            toastr.options.timeout = 1200;
+            toastr.error('<%= alert %>');
+        });
+        <% flash[:alert] = nil %>
+    </script>
+  <% end %>
+
 <% end %>
 <% if notice.present? %>
   <script>

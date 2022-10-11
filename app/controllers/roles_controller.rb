@@ -16,7 +16,7 @@ class RolesController < ApplicationController
         menu = Menu.find(menu_id)
         if check_prev_permission.present?
           if menu.menu_type == "sub_menu"
-            check_prev_permission.update(:is_index => params[:is_index][index], :is_create => params[:is_create][index], :in_view => params[:is_view][index], :is_edit => params[:is_edit][index], :is_delete => params[:is_delete][index])
+            check_prev_permission.update(:is_index => params[:is_index][index], :is_create => params[:is_create][index], :is_view => params[:is_view][index], :is_edit => params[:is_edit][index], :is_delete => params[:is_delete][index])
           else
             check_prev_permission.update(:is_index => params[:is_index][index])
           end
@@ -47,6 +47,35 @@ class RolesController < ApplicationController
       else
         flash[:alert] = "Something Went Wrong"
       end
+    end
+    redirect_to role_path
+  end
+
+  def update
+    if params[:is_active].nil?
+      params[:is_active] = false
+    end
+    role = Role.find(params[:role_id])
+    if role.update(role_params)
+      params[:permission_ids].each_with_index do |permission_id, index|
+        permission = Permission.find(permission_id)
+        permission.update(:is_index => params[:is_index][index], :is_create => params[:is_create][index], :is_view => params[:is_view][index], :is_edit => params[:is_edit][index], :is_delete => params[:is_delete][index])
+      end
+      flash[:notice] = "Role/Permissions Updated Successfully"
+    else
+      flash[:alert] = "Something Went Wrong"
+    end
+    redirect_to role_path
+  end
+
+  def destroy
+    role = Role.find(params[:id])
+    if role.users.present?
+      flash[:alert] = "Role Has Currently Assigned To Users"
+    else
+      role.permissions.delete_all
+      role.delete
+      flash[:notice] = "Role/Permission Deleted"
     end
     redirect_to role_path
   end

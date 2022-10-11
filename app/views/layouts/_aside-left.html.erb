@@ -15,52 +15,66 @@
       <nav id="menu" class="nav-main" role="navigation">
 
         <ul class="nav nav-main">
-          <li>
-            <a class="nav-link" href="<%= dashboard_path %>" onclick="loading_screen()">
-              <i class="bx bx-home-alt" aria-hidden="true"></i>
-              <span>Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-parent">
-            <a class="nav-link" href="#">
-              <i class="bx bx-cog" aria-hidden="true"></i>
-              <span>System Settings</span>
-            </a>
-            <ul class="nav nav-children">
-              <li>
-                <a class="nav-link" href="<%= user_path %>" onclick="loading_screen()">
-                  Users
-                </a>
-              </li>
-              <li>
-                <a class="nav-link" href="#">
-                  Locations
-                </a>
-              </li>
-              <li>
-                <a class="nav-link" href="#">
-                  Categories
-                </a>
-              </li>
-              <li>
-                <a class="nav-link" href="<%= menu_path %>" onclick="loading_screen()">
-                  Menu
-                </a>
-              </li>
-              <li>
-                <a class="nav-link" href="<%= role_path  %>" onclick="loading_screen()">
-                  Roles & Permissions
-                </a>
-              </li>
-            </ul>
-          </li>
-<!--          <li>-->
-<!--            <a class="nav-link" href="mailbox-folder.html">-->
-<!--              <span class="float-end badge badge-primary">182</span>-->
-<!--              <i class="bx bx-envelope" aria-hidden="true"></i>-->
-<!--              <span>Mailbox</span>-->
-<!--            </a>-->
-<!--          </li>-->
+          <% if Dashboard.check_side_bar_permission("dashboard", @current_user) == true %>
+            <li>
+              <a class="nav-link" href="<%= dashboard_path %>" onclick="loading_screen()">
+                <i class="bx bx-home-alt" aria-hidden="true"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+          <% end %>
+          <% if Dashboard.check_side_bar_permission("system_settings", @current_user) == true %>
+            <li class="nav-parent">
+              <a class="nav-link" href="#">
+                <i class="bx bx-cog" aria-hidden="true"></i>
+                <span>System Settings</span>
+              </a>
+              <ul class="nav nav-children">
+                <% if Dashboard.check_side_bar_permission("users", @current_user) == true %>
+                  <li>
+                    <a class="nav-link" href="<%= user_path %>" onclick="loading_screen()">
+                      Users
+                    </a>
+                  </li>
+                <% end %>
+                <% if Dashboard.check_side_bar_permission("locations", @current_user) == true %>
+                  <li>
+                    <a class="nav-link" href="#">
+                      Locations
+                    </a>
+                  </li>
+                <% end %>
+                <% if Dashboard.check_side_bar_permission("categories", @current_user) == true %>
+                  <li>
+                    <a class="nav-link" href="#">
+                      Categories
+                    </a>
+                  </li>
+                <% end %>
+                <% if Dashboard.check_side_bar_permission("menus", @current_user) == true %>
+                  <li>
+                    <a class="nav-link" href="<%= menu_path %>" onclick="loading_screen()">
+                      Menu
+                    </a>
+                  </li>
+                <% end %>
+                <% if Dashboard.check_side_bar_permission("roles", @current_user) == true %>
+                  <li>
+                    <a class="nav-link" href="<%= role_path  %>" onclick="loading_screen()">
+                      Roles & Permissions
+                    </a>
+                  </li>
+                <% end %>
+              </ul>
+            </li>
+          <% end %>
+          <!--          <li>-->
+          <!--            <a class="nav-link" href="mailbox-folder.html">-->
+          <!--              <span class="float-end badge badge-primary">182</span>-->
+          <!--              <i class="bx bx-envelope" aria-hidden="true"></i>-->
+          <!--              <span>Mailbox</span>-->
+          <!--            </a>-->
+          <!--          </li>-->
 
         </ul>
       </nav>

@@ -22,10 +22,14 @@ Rails.application.routes.draw do
   ##### MENUS #####
   get 'menu' => 'menus#index'
   post 'new_menu' => 'menus#create'
+  post 'update_menu' => 'menus#update'
+  post 'delete_menu' => 'menus#destroy'
 
   ##### PERMISSIONS #####
   get 'role' => 'roles#index'
   post 'new_role' => 'roles#create'
+  post 'update_role' => 'roles#update'
+  post 'delete_role' => 'roles#destroy'
 
   ##### PERMISSIONS #####
   get 'permission' => 'permissions#index'

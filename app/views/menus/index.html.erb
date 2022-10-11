@@ -1,158 +1,248 @@
 <!-- start: page -->
-<div class="row">
-  <div class="col-lg-12">
-    <section class="card">
-      <header class="card-header">
-        <div class="card-actions">
-          <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
-        </div>
-        <h2 class="card-title">Create New <%= @sub_module_name.capitalize %></h2>
-      </header>
-      <div class="card-body">
-        <!-- Modal Bootstrap -->
-        <%= form_with url: new_menu_path, method: :post, id: 'myForm', multipart: true do |form| %>
-          <div class="row">
-            <div class="row form-group pb-3">
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label class="col-form-label" for="formGroupExampleInput">Menu Type <span style="color: red">*</span></label>
-                  <select required class="form-control sumoselect2" name="menu_type" placeholder="Select Menu Type">
-                    <option selected></option>
-                    <option value="main_menu">Main Menu</option>
-                    <option value="sub_menu">Sub Menu</option>
-                  </select>
+<% if Dashboard.check_permission(@sub_module_name, current_user, "create") %>
+  <div class="row">
+    <div class="col-lg-12">
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+          <h2 class="card-title">Create New <%= @sub_module_name.capitalize %></h2>
+        </header>
+        <div class="card-body">
+          <!-- Modal Bootstrap -->
+          <%= form_with url: new_menu_path, method: :post, id: 'myForm', multipart: true do |form| %>
+            <div class="row">
+              <div class="row form-group pb-3">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="col-form-label" for="formGroupExampleInput">Menu Type <span style="color: red">*</span></label>
+                    <select required class="form-control sumoselect2" name="menu_type" placeholder="Select Menu Type">
+                      <option selected></option>
+                      <option value="main_menu">Main Menu</option>
+                      <option value="sub_menu">Sub Menu</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="col-form-label" for="formGroupExampleInput">Menu Name <span style="color: red">*</span></label>
+                    <input required type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Enter Menu Name">
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
+                    <div class="switch switch-success">
+                      <input required type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label class="col-form-label" for="formGroupExampleInput">Menu Name <span style="color: red">*</span></label>
-                  <input required type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Enter Menu Name">
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
-                  <div class="switch switch-success">
-                    <input required type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+              <div class="form-group row pb-3">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary float-end">Create</button>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="form-group row pb-3">
-              <div class="col-lg-12">
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary float-end">Create</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </section>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-lg-12">
-    <section class="card">
-      <header class="card-header">
-        <div class="card-actions">
-          <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
-          <!--          <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>-->
+          <% end %>
         </div>
-        <h2 class="card-title"><%= @sub_module_name.capitalize %> Detail</h2>
-      </header>
-      <div class="card-body">
-        <!-- Modal Bootstrap -->
-        <div class="row p-2">
-          <div class="col-lg-12">
-            <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
-              <thead>
-              <tr>
-                <th>Sr #</th>
-                <th>Name</th>
-                <th>Menu Type</th>
-                <th>Is Active?</th>
-                <th>Action</th>
-              </tr>
-              </thead>
-              <tbody>
-              <% if @menus.present? %>
-                <% count = 1 %>
-                <% @menus.each do |menu| %>
-                  <tr>
-                    <td><%= count %></td>
-                    <td><%= menu.name.capitalize %></td>
-                    <td><%= menu.menu_type.gsub("_", " ").split.map(&:capitalize).join(' ') %></td>
-                    <td>
-                      <% if menu.is_active == true %>
-                        <span class="badge badge-success">Active</span>
-                      <% else %>
-                        <span class="badge badge-danger">In Active</span>
-                      <% end %>
-                    </td>
-                    <td>
-                      <!-- Edit Button -->
-                      <button type="button" class="btn btn-outline-dark rounded-circle"><span class="bx bx-edit"></span></button>
-                      <!-- View Button -->
-                      <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= menu.id %>"><span class="bx bx-show"></span></button>
-                      <div class="modal fade" id="modalBootstrapview<%= menu.id %>" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">View <b>Menu</b></h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="row">
-                                <div class="row form-group pb-3">
-                                  <div class="col-lg-6">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Menu Type <span style="color: red">*</span></label>
-                                      <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= menu.menu_type.capitalize %>">
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
+  <div class="row">
+    <div class="col-lg-12">
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+            <!--          <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>-->
+          </div>
+          <h2 class="card-title"><%= @sub_module_name.capitalize %> Detail</h2>
+        </header>
+        <div class="card-body">
+          <!-- Modal Bootstrap -->
+          <div class="row p-2">
+            <div class="col-lg-12">
+              <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
+                <thead>
+                <tr>
+                  <th>Sr #</th>
+                  <th>Name</th>
+                  <th>Menu Type</th>
+                  <th>Is Active?</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% if @menus.present? %>
+                  <% count = 1 %>
+                  <% @menus.order("id DESC").each do |menu| %>
+                    <tr>
+                      <td><%= count %></td>
+                      <td><%= menu.name.capitalize %></td>
+                      <td><%= menu.menu_type.gsub("_", " ").split.map(&:capitalize).join(' ') %></td>
+                      <td>
+                        <% if menu.is_active == true %>
+                          <span class="badge badge-success">Active</span>
+                        <% else %>
+                          <span class="badge badge-danger">In Active</span>
+                        <% end %>
+                      </td>
+                      <td>
+                        <!-- Edit Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "edit") %>
+                          <button type="button" class="btn btn-outline-dark rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapedit<%= menu.id %>"><span class="bx bx-edit"></span></button>
+                          <div class="modal fade" id="modalBootstrapedit<%= menu.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <%= form_with url: update_menu_path, method: :post, id: 'myForm', multipart: true do |form| %>
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">Update <b>Menu</b></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input hidden type="text" name="id" value="<%= menu.id %>">
+                                    <div class="row">
+                                      <div class="row form-group pb-3">
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label" for="formGroupExampleInput">Menu Type <span style="color: red">*</span></label>
+                                            <select required class="form-control sumoselect2" name="menu_type" placeholder="Select Menu Type">
+                                              <option selected value="<%= menu.menu_type %>"><%= menu.menu_type.gsub("_", " ").split.map(&:capitalize).join(' ')  %></option>
+                                              <% if menu.menu_type == "main_menu" %>
+                                                <option value="sub_menu">Sub Menu</option>
+                                              <% else %>
+                                                <option value="main_menu">Main Menu</option>
+                                              <% end %>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label" for="formGroupExampleInput">Menu Name <span style="color: red">*</span></label>
+                                            <input required type="text" name="name" class="form-control" id="formGroupExampleInput" value="<%= menu.name %>">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="row form-group pb-3">
+                                        <div class="col-lg-4">
+                                          <div class="form-group">
+                                            <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
+                                            <div class="switch switch-success">
+                                              <% if menu.is_active == true %>
+                                                <input type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                                              <% else %>
+                                                <input type="checkbox" name="is_active" data-plugin-ios-switch />
+                                              <% end %>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
-                                  <div class="col-lg-6">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Menu Name <span style="color: red">*</span></label>
-                                      <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= menu.name.capitalize %>">
+                                  <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary float-end">Update</button>
+                                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        <% end %>
+                        <!-- View Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
+                          <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= menu.id %>"><span class="bx bx-show"></span></button>
+                          <div class="modal fade" id="modalBootstrapview<%= menu.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">View <b>Menu</b></h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row">
+                                    <div class="row form-group pb-3">
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label" for="formGroupExampleInput">Menu Type <span style="color: red">*</span></label>
+                                          <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= menu.menu_type.gsub("_", " ").split.map(&:capitalize).join(' ') %>">
+                                        </div>
+                                      </div>
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label" for="formGroupExampleInput">Menu Name <span style="color: red">*</span></label>
+                                          <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= menu.name.capitalize %>">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row form-group pb-3">
+                                      <div class="col-lg-4">
+                                        <div class="form-group">
+                                          <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
+                                          <% if menu.is_active == true %>
+                                            <span class="badge-success badge">Active</span>
+                                          <% else %>
+                                            <span class="badge-danger badge">In-Active</span>
+                                          <% end %>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                                <div class="row form-group pb-3">
-                                  <div class="col-lg-4">
-                                    <div class="form-group">
-                                      <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
-                                      <% if menu.is_active == true %>
-                                        <span class="badge-success badge">Active</span>
-                                      <% else %>
-                                        <span class="badge-danger badge">In-Active</span>
-                                      <% end %>
-                                    </div>
-                                  </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
                                 </div>
                               </div>
                             </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        <% end %>
+                        <!-- Delete Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "delete") %>
+                          <button type="button" class="btn btn-outline-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= menu.id %>"><span class="bx bx-trash"></span></button>
+                          <div class="modal fade" id="modalBootstrapdelete<%= menu.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                              <%= form_with url: delete_menu_path, method: :post, id: 'myForm', multipart: true do |form| %>
+                                <div class="modal-content">
+                                  <div class="modal-header" style="background: #702329">
+                                    <h5 class="modal-title"><b>Are You Sure You Want To Delete Menu</b>???</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input hidden type="text" name="id" value="<%= menu.id %>">
+                                    <div class="row">
+                                      <div class="col-lg-2"></div>
+                                      <div class="col-lg-4">
+                                        <button type="submit" class="btn btn-success float-start">Yes</button>
+                                      </div>
+                                      <div class="col-lg-4">
+                                        <button type="button" class="btn btn-warning float-end" data-bs-dismiss="modal">No</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              <% end %>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      <!-- Delete Button -->
-                      <button type="button" class="btn btn-outline-danger rounded-circle"><span class="bx bx-trash"></span></button>
-                    </td>
-                  </tr>
-                  <% count += 1 %>
+                        <% end %>
+                      </td>
+                    </tr>
+                    <% count += 1 %>
+                  <% end %>
                 <% end %>
-              <% end %>
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
-</div>
+<% end %>
 <!-- end: page -->
 
