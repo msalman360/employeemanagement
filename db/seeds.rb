@@ -5,10 +5,10 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-["dashboard", "system_settings", "users", "menus", "roles", "locations", "categories"].each do |menu_name|
+["dashboard", "system_settings", "users", "menus", "roles", "locations", "categories", "activity_streams"].each do |menu_name|
   check_menu = Menu.where(:slug => menu_name)
   if not check_menu.present?
-    if menu_name == "dashboard" or menu_name == "system_settings"
+    if menu_name == "dashboard" or menu_name == "system_settings" or menu_name == "activity_streams"
       Menu.create(:name => menu_name.gsub("_", " ").capitalize, :menu_type => "main_menu", :is_active => true, :slug => menu_name)
     else
       Menu.create(:name => menu_name.gsub("_", " ").capitalize, :menu_type => "sub_menu", :is_active => true, :slug => menu_name)

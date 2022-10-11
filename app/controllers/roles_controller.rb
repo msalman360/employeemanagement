@@ -4,6 +4,7 @@ class RolesController < ApplicationController
 
   def index
     @roles = Role.all
+    ActivityStream.create_activity_stream("View Role/Permissions Index Page", "Role", 0, @current_user, "view")
   end
 
   def show
@@ -14,6 +15,7 @@ class RolesController < ApplicationController
     end
     @roles = Role.where(:is_active => params[:is_active])
     if @roles.present?
+      ActivityStream.create_activity_stream("Filter Roles/Permissions", "Role", 0, @current_user, "filter")
       flash[:notice] = "Role Found Successfully"
     else
       flash[:alert] = "No Record Found"
@@ -54,6 +56,7 @@ class RolesController < ApplicationController
           end
         end
       end
+      ActivityStream.create_activity_stream("Create New Role/Permissions", "Role", Role.last.id, @current_user, "create")
       flash[:notice] = "Role Created Successfully"
     else
       if role.errors.full_messages.first == "Name has already been taken"
@@ -75,6 +78,7 @@ class RolesController < ApplicationController
         permission = Permission.find(permission_id)
         permission.update(:is_index => params[:is_index][index], :is_create => params[:is_create][index], :is_view => params[:is_view][index], :is_edit => params[:is_edit][index], :is_delete => params[:is_delete][index])
       end
+      ActivityStream.create_activity_stream("Update Existing Role/Permissions", "Role", role.id, @current_user, "edit")
       flash[:notice] = "Role/Permissions Updated Successfully"
     else
       flash[:alert] = "Something Went Wrong"
@@ -87,6 +91,7 @@ class RolesController < ApplicationController
     if role.users.present?
       flash[:alert] = "Role Has Currently Assigned To Users"
     else
+      ActivityStream.create_activity_stream("Delete #{role.name} From Roles/Permissions", "Role", role.id, @current_user, "delete")
       role.permissions.delete_all
       role.delete
       flash[:notice] = "Role/Permission Deleted"

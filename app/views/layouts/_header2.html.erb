@@ -2,7 +2,7 @@
   <% if @sub_module_name.present? %>
     <h2><%= @sub_module_name.split.map(&:capitalize).join(' ') %></h2>
   <% else %>
-    <% if @module_name == "dashboard" %>
+    <% if @module_name == "dashboard" or @module_name == "activity_streams" %>
       <h2><%= @module_name.gsub("_", " ").split.map(&:capitalize).join(' ') %></h2>
     <% end %>
   <% end %>

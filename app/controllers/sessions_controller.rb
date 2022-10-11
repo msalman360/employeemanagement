@@ -16,6 +16,7 @@ class SessionsController < ApplicationController
                 flash[:notice] = "Logged in successfully."
                 @module_name = "dashboard"
                 @icon_name = "bx bx-home-alt"
+                ActivityStream.create_activity_stream("#{user.email} Logged-in To Dashboard", "User", @current_user.id, @current_user, "login")
                 render 'dashboards/index'
               end
             else
@@ -28,6 +29,7 @@ class SessionsController < ApplicationController
                   flash[:notice] = "Logged in successfully."
                   @module_name = "dashboard"
                   @icon_name = "bx bx-home-alt"
+                  ActivityStream.create_activity_stream("#{user.email} Logged-in To Dashboard", "User", @current_user.id, @current_user, "login")
                   render 'dashboards/index'
                 end
               else
@@ -57,6 +59,7 @@ class SessionsController < ApplicationController
   def destroy
     user = User.find(session[:user_id])
     user.update(:is_logged_in => false)
+    ActivityStream.create_activity_stream("#{user.email} Logout From Dashboard", "User", user.id, user, "logout")
     user.login_histories.where(:is_active => true).update(:is_active => false)
     session[:user_id] = nil
     flash[:notice] = "You have been logged out"

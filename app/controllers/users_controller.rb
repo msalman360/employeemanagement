@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    ActivityStream.create_activity_stream("View Users Index Page", "User", 0, @current_user, "view")
   end
 
   def show
@@ -20,6 +21,7 @@ class UsersController < ApplicationController
       @users = @users.where(:role_id => params[:role_id])
     end
     if @users.present?
+      ActivityStream.create_activity_stream("Filter Users", "User", 0, @current_user, "filter")
       flash[:notice] = "User Found Successfully"
     else
       flash[:alert] = "No Record Found"
@@ -30,6 +32,7 @@ class UsersController < ApplicationController
   def create
     user = User.new(user_params)
     if user.save
+      ActivityStream.create_activity_stream("Create New User", "User", User.last.id, @current_user, "create")
       flash[:notice] = "User Created Successfully"
     else
       if user.errors.full_messages.first == "Email has already been taken"
@@ -47,6 +50,7 @@ class UsersController < ApplicationController
     end
     user = User.find(params[:id])
     if user.update(user_params)
+      ActivityStream.create_activity_stream("Update Existing User", "User", user.id, @current_user, "edit")
       flash[:notice] = "User Updated Successfully"
     else
       flash[:alert] = "Something Went Wrong"
@@ -59,6 +63,7 @@ class UsersController < ApplicationController
     if user.login_histories.where(:is_active => true).present?
       flash[:alert] = "User Logged-In Somewhere"
     else
+      ActivityStream.create_activity_stream("Delete #{user.email} From Users", "User", user.id, @current_user, "delete")
       user.login_histories.update_all(:is_active => false)
       user.delete
       flash[:notice] = "User Deleted"
@@ -71,6 +76,7 @@ class UsersController < ApplicationController
     if user.authenticate(params[:old_password]).present?
       if params[:password].length > 7
         user.update(:password => params[:password])
+        ActivityStream.create_activity_stream("Update #{user.email} Password", "User", user.id, @current_user, "edit")
         flash[:notice] = "Password Updated"
       else
         flash[:alert] = "Password Length Should Be Greater Then 8"

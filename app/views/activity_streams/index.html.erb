@@ -1,0 +1,130 @@
+<!-- start: page -->
+<% if Dashboard.check_permission(@module_name, current_user, "index") %>
+  <div class="row">
+    <div class="col-lg-12">
+      <a class="mb-1 mt-1 me-1 btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#modalBootstrapfilter" href="#"><span class="bx bx-search"></span> Filter</a>
+      <!-- Filter Modal -->
+      <%= form_with url: filter_activity_stream_path, method: :post, id: 'myForm', multipart: true do |form| %>
+        <div class="modal" id="modalBootstrapfilter" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lgg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Filter <b><%= @module_name.gsub("_", " ").split.map(&:capitalize).join(' ') %></b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="row form-group pb-3">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="col-form-label" for="formGroupExampleInput">User <span style="color: red">*</span></label>
+                        <select required class="form-control sumoselect2" name="user_id" placeholder="Select User">
+                          <option selected></option>
+                          <% User.all.each do |user| %>
+                            <option value="<%= user.id %>"><%= user.full_name.capitalize %></option>
+                          <% end %>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="col-form-label" for="formGroupExampleInput">Table </label>
+                        <select class="form-control sumoselect2" name="table_name" placeholder="Select Table">
+                          <option selected></option>
+                          <% ActivityStream.pluck(:table_name).uniq.each do |table| %>
+                            <option value="<%= table %>"><%= table.capitalize %></option>
+                          <% end %>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="col-form-label" for="formGroupExampleInput">Action </label>
+                        <select class="form-control sumoselect2" name="slug" placeholder="Select Action">
+                          <option selected></option>
+                          <option value="create">Create</option>
+                          <option value="edit">Edit/Update</option>
+                          <option value="view">View</option>
+                          <option value="delete">Delete</option>
+                          <option value="filter">Filter</option>
+                          <option value="login">Login</option>
+                          <option value="logout">Logout</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="row form-group pb-3">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="col-form-label" for="formGroupExampleInput">Start Date</label>
+                        <input type="date" name="start_date" class="form-control" id="formGroupExampleInput">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="col-form-label" for="formGroupExampleInput">End Date</label>
+                        <input type="date" name="end_date" class="form-control" id="formGroupExampleInput">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+          <h2 class="card-title"><%= @module_name.gsub("_", " ").split.map(&:capitalize).join(' ')  %> Detail</h2>
+        </header>
+        <div class="card-body">
+          <!-- Modal Bootstrap -->
+          <div class="row p-2">
+            <div class="col-lg-12">
+              <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
+                <thead>
+                <tr>
+                  <th>Sr #</th>
+                  <th>User Name</th>
+                  <th>User Email</th>
+                  <th>Action Performed</th>
+                  <th>Action Date Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% if @activity_streams.present? %>
+                  <% count = 1 %>
+                  <% @activity_streams.each do |activity_stream| %>
+                    <tr>
+                      <td><%= count %></td>
+                      <td><%= activity_stream.user.full_name %></td>
+                      <td><%= activity_stream.user.email %></td>
+                      <td><%= activity_stream.action_name %></td>
+                      <td><%= activity_stream.action_datetime.strftime("%d-%b-%Y at %I:%M %P") %></td>
+                    </tr>
+                    <% count += 1 %>
+                  <% end %>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>

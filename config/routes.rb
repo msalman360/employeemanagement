@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   ##### DASHBOARDS #####
   get 'dashboard' => 'dashboards#index'
 
+  ##### ACTIVITY STREAMS #####
+  get 'activity_stream' => 'activity_streams#index'
+  post 'filter_activity_stream' => 'activity_streams#show'
+
   ##### USERS #####
   get 'user' => 'users#index'
   post 'new_user' => 'users#create'

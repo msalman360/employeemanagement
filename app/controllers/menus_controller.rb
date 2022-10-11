@@ -4,6 +4,7 @@ class MenusController < ApplicationController
 
   def index
     @menus = Menu.all
+    ActivityStream.create_activity_stream("View Menu Index Page", "Menus", 0, @current_user, "view")
   end
 
   def show
@@ -17,6 +18,7 @@ class MenusController < ApplicationController
       @menus = @menus.where(:menu_type => params[:menu_type])
     end
     if @menus.present?
+      ActivityStream.create_activity_stream("Filter Menus", "Menu", 0, @current_user, "filter")
       flash[:notice] = "Menu Found Successfully"
     else
       flash[:alert] = "No Record Found"
@@ -31,6 +33,7 @@ class MenusController < ApplicationController
       Role.all.each do |role|
         Permission.create(:menu_id => Menu.last.id, :role_id => role.id)
       end
+      ActivityStream.create_activity_stream("Create New Menu", "Menu", Menu.last.id, @current_user, "create")
       flash[:notice] = "User Created Successfully"
     else
       if menu.errors.full_messages.first == "Name has already been taken"
@@ -48,6 +51,7 @@ class MenusController < ApplicationController
     end
     menu = Menu.find(params[:id])
     if menu.update(menu_params)
+      ActivityStream.create_activity_stream("Update Existing Menu", "Menu", menu.id, @current_user, "edit")
       flash[:notice] = "Menu Updated Successfully"
     else
       flash[:alert] = "Something Went Wrong"
@@ -60,6 +64,7 @@ class MenusController < ApplicationController
     if menu.permissions.present?
       flash[:alert] = "Menu Has Currently Used In Permissions"
     else
+      ActivityStream.create_activity_stream("Delete #{menu.name} From Menus", "Menu", menu.id, @current_user, "delete")
       menu.delete
       flash[:notice] = "Menu Deleted"
     end
