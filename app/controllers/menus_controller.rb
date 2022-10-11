@@ -74,7 +74,7 @@ class MenusController < ApplicationController
   private
 
   def menu_params
-    params.permit(:name, :is_active, :slug, :menu_type)
+    params.permit(:name, :is_active, :slug, :menu_type, :main_menu_id)
   end
 
   def set_module_name

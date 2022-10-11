@@ -19,7 +19,7 @@
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label class="col-form-label" for="formGroupExampleInput">Menu Type <span style="color: red">*</span></label>
-                        <select required class="form-control sumoselect2" name="menu_type" placeholder="Select Menu Type">
+                        <select required class="form-control sumoselect2" name="menu_type" onchange="check_menu_type(this.value)" placeholder="Select Menu Type">
                           <option selected></option>
                           <option value="main_menu">Main Menu</option>
                           <option value="sub_menu">Sub Menu</option>
@@ -30,6 +30,17 @@
                       <div class="form-group">
                         <label class="col-form-label" for="formGroupExampleInput">Menu Name <span style="color: red">*</span></label>
                         <input required type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Enter Menu Name">
+                      </div>
+                    </div>
+                    <div class="col-lg-4" style="display: none" id="main_menu_id">
+                      <div class="form-group">
+                        <label class="col-form-label" for="formGroupExampleInput">Main Menu</label>
+                        <select class="form-control sumoselect2" name="main_menu_id" placeholder="Select Main Menu">
+                          <option selected></option>
+                          <% Menu.where(:menu_type => "main_menu").each do |menu| %>
+                            <option value="<%= menu.id %>"><%= menu.name.capitalize %></option>
+                          <% end %>
+                        </select>
                       </div>
                     </div>
                     <div class="col-lg-4">
@@ -116,6 +127,7 @@
                   <th>Sr #</th>
                   <th>Name</th>
                   <th>Menu Type</th>
+                  <th>Main Menu Name</th>
                   <th>Is Active?</th>
                   <th>Action</th>
                 </tr>
@@ -128,6 +140,14 @@
                       <td><%= count %></td>
                       <td><%= menu.name.capitalize %></td>
                       <td><%= menu.menu_type.gsub("_", " ").split.map(&:capitalize).join(' ') %></td>
+                      <td>
+                        <% if menu.main_menu_id.present? %>
+                          <% main_menu = Menu.find(menu.main_menu_id) %>
+                          <span class="badge badge-success"><%= main_menu.name.capitalize %></span>
+                        <% else %>
+                          <span class="badge badge-info">Self Main Menu</span>
+                        <% end %>
+                      </td>
                       <td>
                         <% if menu.is_active == true %>
                           <span class="badge badge-success">Active</span>
@@ -172,7 +192,27 @@
                                         </div>
                                       </div>
                                       <div class="row form-group pb-3">
-                                        <div class="col-lg-4">
+                                        <% if menu.menu_type == "sub_menu" %>
+                                          <div class="col-lg-6">
+                                            <div class="form-group">
+                                              <label class="col-form-label" for="formGroupExampleInput">Main Menu <span style="color: red">*</span></label>
+                                              <select required class="form-control sumoselect2" name="main_menu_id" placeholder="Select Main Menu">
+                                                <% if menu.main_menu_id.present? %>
+                                                  <option selected value="<%= menu.main_menu_id %>"><%= main_menu.name.capitalize %></option>
+                                                  <% Menu.where(:menu_type => "main_menu").where.not(:id => menu.main_menu_id).each do |menu| %>
+                                                    <option value="<%= menu.id %>"><%= menu.name.capitalize %></option>
+                                                  <% end %>
+                                                <% else %>
+                                                  <option selected></option>
+                                                  <% Menu.where(:menu_type => "main_menu").each do |menu| %>
+                                                    <option value="<%= menu.id %>"><%= menu.name.capitalize %></option>
+                                                  <% end %>
+                                                <% end %>
+                                              </select>
+                                            </div>
+                                          </div>
+                                        <% end %>
+                                        <div class="col-lg-6">
                                           <div class="form-group">
                                             <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
                                             <div class="switch switch-success">
@@ -223,7 +263,15 @@
                                       </div>
                                     </div>
                                     <div class="row form-group pb-3">
-                                      <div class="col-lg-4">
+                                      <% if menu.main_menu_id.present? %>
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label" for="formGroupExampleInput">Main Menu <span style="color: red">*</span></label>
+                                            <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= main_menu.name.capitalize %>">
+                                          </div>
+                                        </div>
+                                      <% end %>
+                                      <div class="col-lg-6">
                                         <div class="form-group">
                                           <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
                                           <% if menu.is_active == true %>
@@ -286,4 +334,16 @@
   </div>
 <% end %>
 <!-- end: page -->
+<script>
+    function check_menu_type(menu_type){
+        if(menu_type == "sub_menu")
+        {
+            $('#main_menu_id').show();
+        }
+        else
+        {
+            $('#main_menu_id').hide();
+        }
+    }
+</script>
 
