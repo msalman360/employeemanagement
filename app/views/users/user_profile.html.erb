@@ -57,15 +57,72 @@
 
           <div>
 
-            <h4 class="mb-3 pt-2 font-weight-semibold text-dark">Activity</h4>
-
+            <a class="mb-1 mt-1 me-1 btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#modalBootstrapfilter" href="#"><span class="bx bx-search"></span> Filter</a>
+            <h4 class="mb-3 pt-2 font-weight-semibold text-dark">Your Activity</h4>
+            <%= form_with url: filter_activity_stream_path, method: :post, id: 'myForm', multipart: true do |form| %>
+              <div class="modal" id="modalBootstrapfilter" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Filter <b>Your Activity</b></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="row form-group pb-3">
+                          <input hidden type="text" name="user_id" value="<%= current_user.id %>">
+                          <input hidden type="text" name="page" value="profile">
+                          <div class="col-lg-12">
+                            <div class="form-group">
+                              <label class="col-form-label" for="formGroupExampleInput">Action </label>
+                              <select class="form-control sumoselect2" name="slug" placeholder="Select Action">
+                                <option selected></option>
+                                <option value="create">Create</option>
+                                <option value="edit">Edit/Update</option>
+                                <option value="view">View</option>
+                                <option value="delete">Delete</option>
+                                <option value="filter">Filter</option>
+                                <option value="login">Login</option>
+                                <option value="logout">Logout</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="row form-group pb-3">
+                          <div class="col-lg-6">
+                            <div class="form-group">
+                              <label class="col-form-label" for="formGroupExampleInput">Start Date</label>
+                              <input type="date" name="start_date" class="form-control" id="formGroupExampleInput">
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="form-group">
+                              <label class="col-form-label" for="formGroupExampleInput">End Date</label>
+                              <input type="date" name="end_date" class="form-control" id="formGroupExampleInput">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Search</button>
+                      <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
             <div class="timeline timeline-simple mt-3 mb-3">
               <div class="tm-body">
-                <% if current_user.activity_streams.present? %>
+                <% if @activity_streams.present? %>
+                  <% months = @activity_streams.pluck(:action_date).uniq.map{|x| x.to_date.strftime("%B-%Y")} %>
+                  <% months.each do |month| %>
                     <div class="tm-title">
-                      <h5 class="m-0 pt-2 pb-2 text-dark font-weight-semibold text-uppercase"><%= Date.today.strftime("%B %Y") %></h5>
+                      <h5 class="m-0 pt-2 pb-2 text-dark font-weight-semibold text-uppercase"><%= month %></h5>
                     </div>
-                    <% current_user.activity_streams.where(:action_date => (Date.today - 1.days)..Date.today).order("action_datetime DESC").each do |activity| %>
+                    <% @activity_streams.where(:action_date => month.to_date.beginning_of_month..month.to_date.end_of_month).order("action_datetime DESC").last(10).each do |activity| %>
                       <ol class="tm-items">
                         <li>
                           <div class="tm-box">
@@ -77,6 +134,7 @@
                         </li>
                       </ol>
                     <% end %>
+                  <% end %>
                 <% else %>
                   <div class="tm-title">
                     <h5 class="m-0 pt-2 pb-2 text-dark font-weight-semibold text-uppercase">No Activity</h5>
@@ -161,13 +219,13 @@
 <script>
     window.onload = function() {
         <% if @id_name.present? %>
-          document.getElementById("<%= @id_name %>").className = 'tab-pane active';
-          document.getElementById("<%= @id_name %>1").className = 'nav-item active';
-          document.getElementById("<%= @id_name %>2").className = 'nav-link active';
+        document.getElementById("<%= @id_name %>").className = 'tab-pane active';
+        document.getElementById("<%= @id_name %>1").className = 'nav-item active';
+        document.getElementById("<%= @id_name %>2").className = 'nav-link active';
         <% else %>
-          document.getElementById('overview').className = 'tab-pane active';
-          document.getElementById('overview1').className = 'nav-item active';
-          document.getElementById('overview2').className = 'nav-link active';
+        document.getElementById('overview').className = 'tab-pane active';
+        document.getElementById('overview1').className = 'nav-item active';
+        document.getElementById('overview2').className = 'nav-link active';
         <% end %>
 
     };

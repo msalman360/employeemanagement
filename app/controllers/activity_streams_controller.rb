@@ -27,7 +27,11 @@ class ActivityStreamsController < ApplicationController
     else
       flash[:alert] = "No Record Found"
     end
-    render 'activity_streams/index'
+    if params[:page].present?
+      render 'users/user_profile'
+    else
+      render 'activity_streams/index'
+    end
   end
 
   private
