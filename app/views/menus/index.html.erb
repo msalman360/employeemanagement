@@ -9,7 +9,7 @@
         <div class="modal fade" id="modalBootstrap" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lgg" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header bg-primary">
                 <h5 class="modal-title">Create New <b><%= @sub_module_name.capitalize %></b></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
@@ -67,7 +67,7 @@
         <div class="modal fade" id="modalBootstrapfilter" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header bg-tertiary">
                 <h5 class="modal-title">Filter <b><%= @sub_module_name.capitalize %></b></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
@@ -158,7 +158,7 @@
                       <td>
                         <!-- Edit Button -->
                         <% if Dashboard.check_permission(@sub_module_name, current_user, "edit") %>
-                          <button type="button" class="btn btn-outline-dark rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapedit<%= menu.id %>"><span class="bx bx-edit"></span></button>
+                          <button type="button" class="btn btn-outline-dark border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapedit<%= menu.id %>"><span class="bx bx-edit"></span></button>
                           <div class="modal fade" id="modalBootstrapedit<%= menu.id %>" tabindex="-1" role="dialog">
                             <div class="modal-dialog modal-lg" role="document">
                               <%= form_with url: update_menu_path, method: :post, id: 'myForm', multipart: true do |form| %>
@@ -238,11 +238,11 @@
                         <% end %>
                         <!-- View Button -->
                         <% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
-                          <button type="button" class="btn btn-outline-success rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= menu.id %>"><span class="bx bx-show"></span></button>
+                          <button type="button" class="btn btn-outline-success border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= menu.id %>"><span class="bx bx-show"></span></button>
                           <div class="modal fade" id="modalBootstrapview<%= menu.id %>" tabindex="-1" role="dialog">
                             <div class="modal-dialog modal-lg" role="document">
                               <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="modal-header bg-success">
                                   <h5 class="modal-title">View <b><%= @sub_module_name.capitalize %></b></h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
@@ -293,12 +293,12 @@
                         <% end %>
                         <!-- Delete Button -->
                         <% if Dashboard.check_permission(@sub_module_name, current_user, "delete") %>
-                          <button type="button" class="btn btn-outline-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= menu.id %>"><span class="bx bx-trash"></span></button>
+                          <button type="button" class="btn btn-outline-danger border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= menu.id %>"><span class="bx bx-trash"></span></button>
                           <div class="modal fade" id="modalBootstrapdelete<%= menu.id %>" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                               <%= form_with url: delete_menu_path, method: :post, id: 'myForm', multipart: true do |form| %>
                                 <div class="modal-content">
-                                  <div class="modal-header" style="background: #702329">
+                                  <div class="modal-header bg-danger">
                                     <h5 class="modal-title"><b>Are You Sure You Want To Delete <%= @sub_module_name.capitalize %></b>???</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
