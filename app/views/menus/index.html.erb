@@ -6,7 +6,7 @@
       <a class="mb-1 mt-1 me-1 btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#modalBootstrapfilter" href="#"><span class="bx bx-search"></span> Filter</a>
       <!-- Create Modal -->
       <%= form_with url: new_menu_path, method: :post, id: 'myForm', multipart: true do |form| %>
-        <div class="modal" id="modalBootstrap" tabindex="-1" role="dialog">
+        <div class="modal fade" id="modalBootstrap" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lgg" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -64,7 +64,7 @@
       <% end %>
       <!-- Filter Modal -->
       <%= form_with url: filter_menu_path, method: :post, id: 'myForm1', multipart: true do |form| %>
-        <div class="modal" id="modalBootstrapfilter" tabindex="-1" role="dialog">
+        <div class="modal fade" id="modalBootstrapfilter" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">

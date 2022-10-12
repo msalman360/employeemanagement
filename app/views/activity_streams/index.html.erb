@@ -109,14 +109,16 @@
                 <% if @activity_streams.present? %>
                   <% count = 1 %>
                   <% @activity_streams.each do |activity_stream| %>
-                    <tr>
-                      <td><%= count %></td>
-                      <td><%= activity_stream.user.full_name %></td>
-                      <td><%= activity_stream.user.email %></td>
-                      <td><%= activity_stream.action_name %></td>
-                      <td><%= activity_stream.action_datetime.strftime("%d-%b-%Y at %I:%M %P") %></td>
-                    </tr>
-                    <% count += 1 %>
+                    <% if activity_stream.user.present? %>
+                      <tr>
+                        <td><%= count %></td>
+                        <td><%= activity_stream.user.full_name %></td>
+                        <td><%= activity_stream.user.email %></td>
+                        <td><%= activity_stream.action_name %></td>
+                        <td><%= activity_stream.action_datetime.strftime("%d-%b-%Y at %I:%M %P") %></td>
+                      </tr>
+                      <% count += 1 %>
+                    <% end %>
                   <% end %>
                 <% end %>
                 </tbody>

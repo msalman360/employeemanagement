@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
   def create
     ip_address = request.remote_addr
     browser_name = request.user_agent
-    debugger
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       if user.is_active == true

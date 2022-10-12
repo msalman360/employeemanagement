@@ -65,6 +65,8 @@ class UsersController < ApplicationController
     else
       ActivityStream.create_activity_stream("Delete #{user.email} From Users", "User", user.id, @current_user, "delete")
       user.login_histories.update_all(:is_active => false)
+      user.activity_streams.delete_all
+      ActivityStream.where(:user_id => nil).delete_all
       user.delete
       flash[:notice] = "User Deleted"
     end
