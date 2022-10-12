@@ -86,7 +86,16 @@ class UsersController < ApplicationController
     else
       flash[:alert] = "Kindly Enter Correct Password"
     end
-    redirect_to user_path
+    if params[:page].present?
+      @id_name = "edit"
+      render 'users/user_profile'
+    else
+      redirect_to user_path
+    end
+  end
+
+  def user_profile
+    @module_name = "user_profile"
   end
 
   private

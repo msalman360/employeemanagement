@@ -189,7 +189,7 @@
     <div id="userbox" class="userbox">
       <a href="#" data-bs-toggle="dropdown">
         <figure class="profile-picture">
-          <img src="<%= asset_path '!logged-user.jpg' %>" alt="Joseph Doe" class="rounded-circle" data-lock-picture="<%= asset_path '!logged-user.jpg' %>" />
+          <img src="<%= asset_path 'blank-profile-pic.png' %>" alt="Joseph Doe" class="rounded-circle" data-lock-picture="<%= asset_path '!logged-user.jpg' %>" />
         </figure>
         <% if @current_user.present? %>
           <div class="profile-info" data-lock-name="<%= @current_user.full_name.capitalize %>" data-lock-email="<%= @current_user.full_name %>">
@@ -205,7 +205,7 @@
         <ul class="list-unstyled mb-2">
           <li class="divider"></li>
           <li>
-            <a role="menuitem" tabindex="-1" href="#"><i class="bx bx-user-circle"></i> My Profile</a>
+            <a role="menuitem" tabindex="-1" href="<%= user_profile_path %>" onclick="loading_screen()"><i class="bx bx-user-circle"></i> My Profile</a>
           </li>
           <!--          <li>-->
           <!--            <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="bx bx-lock"></i> Lock Screen</a>-->

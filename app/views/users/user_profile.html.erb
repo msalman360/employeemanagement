@@ -1,0 +1,174 @@
+<!-- start: page -->
+<div class="row">
+  <div class="col-lg-4 col-xl-3 mb-4 mb-xl-0">
+
+    <section class="card">
+      <div class="card-body">
+        <div class="thumb-info mb-3">
+          <img src="<%= asset_path 'blank-profile-pic.png' %>" class="rounded img-fluid" alt="<%= current_user.full_name %>">
+          <div class="thumb-info-title">
+            <span class="thumb-info-inner"><%= current_user.full_name.capitalize %></span>
+            <span class="thumb-info-type"><%= current_user.user_type.capitalize %></span>
+          </div>
+        </div>
+
+        <div class="widget-toggle-expand mb-3">
+          <div class="widget-header">
+            <h5 class="mb-2 font-weight-semibold text-dark">Profile Completion</h5>
+            <div class="widget-toggle">+</div>
+          </div>
+          <div class="widget-content-collapsed">
+            <div class="progress progress-xs light">
+              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                60%
+              </div>
+            </div>
+          </div>
+          <div class="widget-content-expanded">
+            <ul class="simple-todo-list mt-3">
+              <li class="completed">Update Profile Picture</li>
+              <li class="completed">Change Personal Information</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="dotted short">
+
+        <h5 class="mb-2 mt-3">About</h5>
+        <p class="text-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis vulputate quam. Interdum et malesuada</p>
+
+      </div>
+    </section>
+
+  </div>
+  <div class="col-lg-8 col-xl-6">
+
+    <div class="tabs">
+      <ul class="nav nav-tabs tabs-primary">
+        <li id="overview1" class="nav-item">
+          <button id="overview2" class="nav-link" data-bs-target="#overview" data-bs-toggle="tab">Activity Stream</button>
+        </li>
+        <li id="edit1" class="nav-item">
+          <button id="edit2" class="nav-link" data-bs-target="#edit" data-bs-toggle="tab">Change Password</button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="overview" class="tab-pane">
+
+          <div>
+
+            <h4 class="mb-3 pt-2 font-weight-semibold text-dark">Activity</h4>
+
+            <div class="timeline timeline-simple mt-3 mb-3">
+              <div class="tm-body">
+                <% if current_user.activity_streams.present? %>
+                    <div class="tm-title">
+                      <h5 class="m-0 pt-2 pb-2 text-dark font-weight-semibold text-uppercase"><%= Date.today.strftime("%B %Y") %></h5>
+                    </div>
+                    <% current_user.activity_streams.where(:action_date => (Date.today - 1.days)..Date.today).order("action_datetime DESC").each do |activity| %>
+                      <ol class="tm-items">
+                        <li>
+                          <div class="tm-box">
+                            <p class="text-muted mb-0"><%= activity.action_datetime.strftime("%d-%b-%Y at %I:%M %P") %></p>
+                            <p>
+                              <%= activity.action_name %>
+                            </p>
+                          </div>
+                        </li>
+                      </ol>
+                    <% end %>
+                <% else %>
+                  <div class="tm-title">
+                    <h5 class="m-0 pt-2 pb-2 text-dark font-weight-semibold text-uppercase">No Activity</h5>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div id="edit" class="tab-pane">
+
+          <%= form_with url: change_password_user_path, method: :post, id: 'myForm', multipart: true do |form| %>
+            <h4 class="mb-3 font-weight-semibold text-dark">Change Password</h4>
+            <div class="row">
+              <input hidden type="text" name="id" value="<%= current_user.id %>">
+              <input hidden type="text" name="page" value="profile">
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Current Password <span style="color: red">*</span></label>
+                <input required type="password" name="old_password" class="form-control" id="inputPassword4" placeholder="Password">
+              </div>
+              <div class="form-group col-md-6 border-top-0 pt-0">
+                <label for="inputPassword5">New Password <span style="color: red">*</span></label>
+                <input required type="password" minlength="8" name="password" class="form-control" id="inputPassword5" placeholder="Password">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 text-end mt-3">
+                <button type="submit" class="btn btn-primary modal-confirm">Update</button>
+              </div>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3">
+
+    <h4 class="mb-3 mt-0 font-weight-semibold text-dark">Sale Stats</h4>
+    <ul class="simple-card-list mb-3">
+      <li class="primary">
+        <h3>488</h3>
+        <p class="text-light">Nullam quris ris.</p>
+      </li>
+      <li class="primary">
+        <h3>$ 189,000.00</h3>
+        <p class="text-light">Nullam quris ris.</p>
+      </li>
+      <li class="primary">
+        <h3>16</h3>
+        <p class="text-light">Nullam quris ris.</p>
+      </li>
+    </ul>
+
+    <h4 class="mb-3 mt-4 pt-2 font-weight-semibold text-dark">Projects</h4>
+    <ul class="simple-bullet-list mb-3">
+      <li class="red">
+        <span class="title">Porto Template</span>
+        <span class="description truncate">Lorem ipsom dolor sit.</span>
+      </li>
+      <li class="green">
+        <span class="title">Tucson HTML5 Template</span>
+        <span class="description truncate">Lorem ipsom dolor sit amet</span>
+      </li>
+      <li class="blue">
+        <span class="title">Porto HTML5 Template</span>
+        <span class="description truncate">Lorem ipsom dolor sit.</span>
+      </li>
+      <li class="orange">
+        <span class="title">Tucson Template</span>
+        <span class="description truncate">Lorem ipsom dolor sit.</span>
+      </li>
+    </ul>
+
+  </div>
+
+</div>
+<!-- end: page -->
+<script>
+    window.onload = function() {
+        <% if @id_name.present? %>
+          document.getElementById("<%= @id_name %>").className = 'tab-pane active';
+          document.getElementById("<%= @id_name %>1").className = 'nav-item active';
+          document.getElementById("<%= @id_name %>2").className = 'nav-link active';
+        <% else %>
+          document.getElementById('overview').className = 'tab-pane active';
+          document.getElementById('overview1').className = 'nav-item active';
+          document.getElementById('overview2').className = 'nav-link active';
+        <% end %>
+
+    };
+</script>

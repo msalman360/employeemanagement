@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   post 'delete_user' => 'users#destroy'
   post 'change_password_user' => 'users#change_password'
   post 'filter_user' => 'users#show'
+  get 'user_profile' => 'users#user_profile'
 
   ##### MENUS #####
   get 'menu' => 'menus#index'
