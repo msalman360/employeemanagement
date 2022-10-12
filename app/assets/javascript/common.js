@@ -22,9 +22,9 @@ tabsTriggerList.length && tabsTriggerList.map(function (tabEl) {
   })
 
 // Bootstrap Datepicker
-if (typeof($.fn.datepicker) != 'undefined') {
-	$.fn.bootstrapDP = $.fn.datepicker.noConflict();
-}
+// if (typeof($.fn.datepicker) != 'undefined') {
+// 	$.fn.bootstrapDP = $.fn.datepicker.noConflict();
+// }
 
 // Simple Sticky Header
 if( $('html.simple-sticky-header-enabled').get(0) ) {

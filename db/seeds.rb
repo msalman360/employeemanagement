@@ -5,13 +5,30 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-["dashboard", "system_settings", "users", "menus", "roles", "locations", "categories", "activity_streams"].each do |menu_name|
-  check_menu = Menu.where(:slug => menu_name)
+["dashboard", "system_settings", "activity_streams"].each do |main_menu|
+  check_menu = Menu.where(:slug => main_menu)
   if not check_menu.present?
-    if menu_name == "dashboard" or menu_name == "system_settings" or menu_name == "activity_streams"
-      Menu.create(:name => menu_name.gsub("_", " ").capitalize, :menu_type => "main_menu", :is_active => true, :slug => menu_name)
-    else
-      Menu.create(:name => menu_name.gsub("_", " ").capitalize, :menu_type => "sub_menu", :is_active => true, :slug => menu_name)
+    if main_menu == "dashboard" or main_menu == "activity_streams"
+      Menu.create(:name => main_menu.gsub("_", " ").capitalize, :menu_type => "main_menu", :is_active => true, :slug => main_menu)
+    elsif main_menu == "system_settings"
+      Menu.create(:name => main_menu.gsub("_", " ").capitalize, :menu_type => "main_menu", :is_active => true, :slug => main_menu)
+      ["users", "menus", "roles", "locations", "categories"].each do |sub_menu|
+        main_menu_id = Menu.where(:slug => main_menu).last.id
+        check_sub_menu = Menu.where(:slug => sub_menu)
+        if not check_sub_menu.present?
+          Menu.create(:name => sub_menu.gsub("_", " ").capitalize, :menu_type => "sub_menu", :is_active => true, :slug => sub_menu, :main_menu_id => main_menu_id)
+        end
+      end
+    end
+  else
+    if main_menu == "system_settings"
+      ["users", "menus", "roles", "locations", "categories"].each do |sub_menu|
+        main_menu_id = Menu.where(:slug => main_menu).last.id
+        check_sub_menu = Menu.where(:slug => sub_menu)
+        if not check_sub_menu.present?
+          Menu.create(:name => sub_menu.gsub("_", " ").capitalize, :menu_type => "sub_menu", :is_active => true, :slug => sub_menu, :main_menu_id => main_menu_id)
+        end
+      end
     end
   end
 end

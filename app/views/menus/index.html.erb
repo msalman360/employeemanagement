@@ -63,7 +63,7 @@
         </div>
       <% end %>
       <!-- Filter Modal -->
-      <%= form_with url: filter_menu_path, method: :post, id: 'myForm', multipart: true do |form| %>
+      <%= form_with url: filter_menu_path, method: :post, id: 'myForm1', multipart: true do |form| %>
         <div class="modal" id="modalBootstrapfilter" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -143,9 +143,9 @@
                       <td>
                         <% if menu.main_menu_id.present? %>
                           <% main_menu = Menu.find(menu.main_menu_id) %>
-                          <span class="badge badge-success"><%= main_menu.name.capitalize %></span>
+                          <span class="badge badge-primary"><%= main_menu.name.capitalize %></span>
                         <% else %>
-                          <span class="badge badge-info">Self Main Menu</span>
+                          <span class="badge badge-default">Self Main Menu</span>
                         <% end %>
                       </td>
                       <td>

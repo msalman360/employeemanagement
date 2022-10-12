@@ -1,5 +1,6 @@
 <!-- start: page -->
 <% if Dashboard.check_permission(@sub_module_name, current_user, "create") %>
+  <% colors = ["primary", "secondary", "tertiary", "quaternary", "success", "dark"] %>
   <div class="row">
     <div class="col-lg-12">
       <a class="mb-1 mt-1 me-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalBootstrap" href="#"><span class="bx bx-plus"></span> User</a>
@@ -179,131 +180,179 @@
                                 </div>
                                 <div class="modal-body">
                                   <div class="row">
-                                    <div class="col-lg-12">
-                                      <table class="table table-responsive-md table-bordered mb-0">
-                                        <thead>
-                                        <tr>
-                                          <th>Menu Name</th>
-                                          <th>Is Index?</th>
-                                          <th>Is Create?</th>
-                                          <th>Is View?</th>
-                                          <th>Is Edit?</th>
-                                          <th>Is Delete?</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <% user.role.permissions.order("menu_id ASC").each do |permission| %>
-                                          <tr>
-                                            <td><%= permission.menu.name.capitalize %></td>
-                                            <td>
-                                              <div class="col-lg-12">
-                                                <div class="form-group">
-                                                  <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
-                                                    <% if permission.is_index == true %>
-                                                      <option value="on" selected>Yes</option>
-                                                    <% else %>
-                                                      <option value="off" selected>No</option>
+                                    <div class="col-12">
+                                      <h4 class="font-weight-bold text-dark">Permissions Assigned to <%= user.full_name.upcase %></h4>
+                                    </div>
+                                    <% Menu.where(:menu_type => "main_menu").uniq.compact.each do |menu| %>
+                                      <div class="col-lg-12 col-xl-12">
+                                        <div class="toggle toggle-tertiary" data-plugin-toggle>
+                                          <section class="toggle">
+                                            <label><%= menu.name.upcase %> </label>
+                                            <div class="toggle-content">
+                                              <div class="row">
+                                                <div class="col-lg-12">
+                                                  <table class="table table-responsive-md table-bordered mb-0">
+                                                    <thead>
+                                                    <tr>
+                                                      <th>Menu Name</th>
+                                                      <th>Is Index?</th>
+                                                      <th>Is Create?</th>
+                                                      <th>Is View?</th>
+                                                      <th>Is Edit?</th>
+                                                      <th>Is Delete?</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <% sub_menus = Menu.where(:main_menu_id => menu.id) %>
+                                                    <tr>
+                                                      <td><%= menu.name.capitalize %></td>
+                                                      <td>
+                                                        <div class="col-lg-12">
+                                                          <div class="form-group">
+                                                            <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
+                                                              <% if user.role.permissions.where(:menu_id => menu.id).last.is_index == true %>
+                                                                <option value="on" selected>Yes</option>
+                                                              <% else %>
+                                                                <option value="off" selected>No</option>
+                                                              <% end %>
+                                                            </select>
+                                                          </div>
+                                                        </div>
+                                                      </td>
+                                                      <td>
+                                                        <div class="col-lg-12">
+                                                          <div class="form-group">
+                                                            <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
+                                                              <% if user.role.permissions.where(:menu_id => menu.id).last.is_create == true %>
+                                                                <option value="on" selected>Yes</option>
+                                                              <% else %>
+                                                                <option value="off" selected>No</option>
+                                                              <% end %>
+                                                            </select>
+                                                          </div>
+                                                        </div>
+                                                      </td>
+                                                      <td>
+                                                        <div class="col-lg-12">
+                                                          <div class="form-group">
+                                                            <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
+                                                              <% if user.role.permissions.where(:menu_id => menu.id).last.is_view == true %>
+                                                                <option value="on" selected>Yes</option>
+                                                              <% else %>
+                                                                <option value="off" selected>No</option>
+                                                              <% end %>
+                                                            </select>
+                                                          </div>
+                                                        </div>
+                                                      </td>
+                                                      <td>
+                                                        <div class="col-lg-12">
+                                                          <div class="form-group">
+                                                            <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
+                                                              <% if user.role.permissions.where(:menu_id => menu.id).last.is_edit == true %>
+                                                                <option value="on" selected>Yes</option>
+                                                              <% else %>
+                                                                <option value="off" selected>No</option>
+                                                              <% end %>
+                                                            </select>
+                                                          </div>
+                                                        </div>
+                                                      </td>
+                                                      <td>
+                                                        <div class="col-lg-12">
+                                                          <div class="form-group">
+                                                            <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
+                                                              <% if user.role.permissions.where(:menu_id => menu.id).last.is_delete == true %>
+                                                                <option value="on" selected>Yes</option>
+                                                              <% else %>
+                                                                <option value="off" selected>No</option>
+                                                              <% end %>
+                                                            </select>
+                                                          </div>
+                                                        </div>
+                                                      </td>
+                                                    </tr>
+                                                    <% if sub_menus.present? %>
+                                                      <% sub_menus.each do |sub_menu| %>
+                                                        <tr>
+                                                          <td><%= sub_menu.name.capitalize %></td>
+                                                          <td>
+                                                            <div class="col-lg-12">
+                                                              <div class="form-group">
+                                                                <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
+                                                                  <% if user.role.permissions.where(:menu_id => sub_menu.id).last.is_index == true %>
+                                                                    <option value="on" selected>Yes</option>
+                                                                  <% else %>
+                                                                    <option value="off" selected>No</option>
+                                                                  <% end %>
+                                                                </select>
+                                                              </div>
+                                                            </div>
+                                                          </td>
+                                                          <td>
+                                                            <div class="col-lg-12">
+                                                              <div class="form-group">
+                                                                <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
+                                                                  <% if user.role.permissions.where(:menu_id => sub_menu.id).last.is_create == true %>
+                                                                    <option value="on" selected>Yes</option>
+                                                                  <% else %>
+                                                                    <option value="off" selected>No</option>
+                                                                  <% end %>
+                                                                </select>
+                                                              </div>
+                                                            </div>
+                                                          </td>
+                                                          <td>
+                                                            <div class="col-lg-12">
+                                                              <div class="form-group">
+                                                                <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
+                                                                  <% if user.role.permissions.where(:menu_id => sub_menu.id).last.is_view == true %>
+                                                                    <option value="on" selected>Yes</option>
+                                                                  <% else %>
+                                                                    <option value="off" selected>No</option>
+                                                                  <% end %>
+                                                                </select>
+                                                              </div>
+                                                            </div>
+                                                          </td>
+                                                          <td>
+                                                            <div class="col-lg-12">
+                                                              <div class="form-group">
+                                                                <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
+                                                                  <% if user.role.permissions.where(:menu_id => sub_menu.id).last.is_edit == true %>
+                                                                    <option value="on" selected>Yes</option>
+                                                                  <% else %>
+                                                                    <option value="off" selected>No</option>
+                                                                  <% end %>
+                                                                </select>
+                                                              </div>
+                                                            </div>
+                                                          </td>
+                                                          <td>
+                                                            <div class="col-lg-12">
+                                                              <div class="form-group">
+                                                                <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
+                                                                  <% if user.role.permissions.where(:menu_id => sub_menu.id).last.is_delete == true %>
+                                                                    <option value="on" selected>Yes</option>
+                                                                  <% else %>
+                                                                    <option value="off" selected>No</option>
+                                                                  <% end %>
+                                                                </select>
+                                                              </div>
+                                                            </div>
+                                                          </td>
+                                                        </tr>
+                                                      <% end %>
                                                     <% end %>
-                                                  </select>
+                                                    </tbody>
+                                                  </table>
                                                 </div>
                                               </div>
-                                            </td>
-                                            <% if permission.menu.menu_type == "sub_menu" %>
-                                              <td>
-                                                <div class="col-lg-12">
-                                                  <div class="form-group">
-                                                    <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
-                                                      <% if permission.is_create == true %>
-                                                        <option value="on" selected>Yes</option>
-                                                      <% else %>
-                                                        <option value="off" selected>No</option>
-                                                      <% end %>
-                                                    </select>
-                                                  </div>
-                                                </div>
-                                              </td>
-                                              <td>
-                                                <div class="col-lg-12">
-                                                  <div class="form-group">
-                                                    <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
-                                                      <% if permission.is_view == true %>
-                                                        <option value="on" selected>Yes</option>
-                                                      <% else %>
-                                                        <option value="off" selected>No</option>
-                                                      <% end %>
-                                                    </select>
-                                                  </div>
-                                                </div>
-                                              </td>
-                                              <td>
-                                                <div class="col-lg-12">
-                                                  <div class="form-group">
-                                                    <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
-                                                      <% if permission.is_edit == true %>
-                                                        <option value="on" selected>Yes</option>
-                                                      <% else %>
-                                                        <option value="off" selected>No</option>
-                                                      <% end %>
-                                                    </select>
-                                                  </div>
-                                                </div>
-                                              </td>
-                                              <td>
-                                                <div class="col-lg-12">
-                                                  <div class="form-group">
-                                                    <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
-                                                      <% if permission.is_delete == true %>
-                                                        <option value="on" selected>Yes</option>
-                                                      <% else %>
-                                                        <option value="off" selected>No</option>
-                                                      <% end %>
-                                                    </select>
-                                                  </div>
-                                                </div>
-                                              </td>
-                                            <% else %>
-                                              <td>
-                                                <div class="col-lg-12">
-                                                  <div class="form-group">
-                                                    <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
-                                                      <option value="off" selected>No</option>
-                                                    </select>
-                                                  </div>
-                                                </div>
-                                              </td>
-                                              <td>
-                                                <div class="col-lg-12">
-                                                  <div class="form-group">
-                                                    <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
-                                                      <option value="off" selected>No</option>
-                                                    </select>
-                                                  </div>
-                                                </div>
-                                              </td>
-                                              <td>
-                                                <div class="col-lg-12">
-                                                  <div class="form-group">
-                                                    <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
-                                                      <option value="off" selected>No</option>
-                                                    </select>
-                                                  </div>
-                                                </div>
-                                              </td>
-                                              <td>
-                                                <div class="col-lg-12">
-                                                  <div class="form-group">
-                                                    <select disabled data-plugin-selectTwo class="form-control populate placeholder" data-plugin-options='{ "placeholder": "Select", "allowClear": true }'>
-                                                      <option value="off" selected>No</option>
-                                                    </select>
-                                                  </div>
-                                                </div>
-                                              </td>
-                                            <% end %>
-                                          </tr>
-                                        <% end %>
-                                        </tbody>
-                                      </table>
-                                    </div>
+                                            </div>
+                                          </section>
+                                        </div>
+                                      </div>
+                                    <% end %>
                                   </div>
                                 </div>
                                 <div class="modal-footer">
