@@ -73,21 +73,25 @@
 </head>
 
 <body>
-<div class="loading" id="loading" style="display: none">Loading</div>
-<% if current_user.present? %>
-  <section class="body">
-    <%= render 'layouts/header' %>
-    <div class="inner-wrapper">
-      <%= render 'layouts/aside-left' %>
-      <section role="main" class="content-body">
-        <%= render 'layouts/header2' %>
-        <%= yield %>
-      </section>
-    </div>
-    <%= render 'layouts/aside-right' %>
-  </section>
-<% else %>
-  <%= yield %>
+<% begin %>
+  <div class="loading" id="loading" style="display: none">Loading</div>
+  <% if current_user.present? %>
+    <section class="body">
+      <%= render 'layouts/header' %>
+      <div class="inner-wrapper">
+        <%= render 'layouts/aside-left' %>
+        <section role="main" class="content-body">
+          <%= render 'layouts/header2' %>
+          <%= yield %>
+        </section>
+      </div>
+      <%= render 'layouts/aside-right' %>
+    </section>
+  <% else %>
+    <%= yield %>
+  <% end %>
+<% rescue %>
+  <%= render 'layouts/error' %>
 <% end %>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <%= javascript_include_tag 'jquery', 'data-turbolinks-track': 'reload' %>
@@ -185,7 +189,7 @@
 </body>
 </html>
 <% if alert.present? %>
-  <% if params[:commit] == "Sign In" %>
+  <% if params[:commit] == "Sign In" or params[:action] == "recover" %>
     <script>
         $(document).ready(function (){
             Swal.fire({

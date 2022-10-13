@@ -7,7 +7,11 @@ Rails.application.routes.draw do
 
   ##### SESSIONS #####
   post 'create' => 'sessions#create'
+  post 'reset_user_password' => 'sessions#reset_user_password'
   get 'logout' => 'sessions#destroy'
+  get 'recover' => 'sessions#recover'
+  post 'send_recover' => 'sessions#send_recover_email'
+  get 'reset_password' => 'sessions#reset_password'
 
   ##### DASHBOARDS #####
   get 'dashboard' => 'dashboards#index'
