@@ -39,6 +39,13 @@
                 <% end %>
                 <% if Dashboard.check_side_bar_permission("locations", @current_user) == true %>
                   <li>
+                    <a class="nav-link" href="<%= status_path %>">
+                      Statuses
+                    </a>
+                  </li>
+                <% end %>
+                <% if Dashboard.check_side_bar_permission("locations", @current_user) == true %>
+                  <li>
                     <a class="nav-link" href="#">
                       Locations
                     </a>

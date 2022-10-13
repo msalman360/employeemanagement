@@ -50,11 +50,16 @@ class MenusController < ApplicationController
       params[:is_active] = false
     end
     menu = Menu.find(params[:id])
+    menu.slug = params[:name].gsub(" ", "_").downcase
     if menu.update(menu_params)
       ActivityStream.create_activity_stream("Update Existing Menu", "Menu", menu.id, @current_user, "edit")
       flash[:notice] = "Menu Updated Successfully"
     else
-      flash[:alert] = "Something Went Wrong"
+      if menu.errors.full_messages.first == "Name has already been taken"
+        flash[:alert] = menu.errors.full_messages.first
+      else
+        flash[:alert] = "Something Went Wrong"
+      end
     end
     redirect_to menu_path
   end

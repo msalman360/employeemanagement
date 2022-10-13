@@ -118,11 +118,11 @@
               <div class="tm-body">
                 <% if @activity_streams.present? %>
                   <% months = @activity_streams.pluck(:action_date).uniq.map{|x| x.to_date.strftime("%B-%Y")} %>
-                  <% months.each do |month| %>
+                  <% months.uniq.each do |month| %>
                     <div class="tm-title">
                       <h5 class="m-0 pt-2 pb-2 text-dark font-weight-semibold text-uppercase"><%= month %></h5>
                     </div>
-                    <% @activity_streams.where(:action_date => month.to_date.beginning_of_month..month.to_date.end_of_month).order("action_datetime DESC").last(10).each do |activity| %>
+                    <% @activity_streams.where(:action_date => month.to_date.beginning_of_month..month.to_date.end_of_month).order("id DESC").first(10).each do |activity| %>
                       <ol class="tm-items">
                         <li>
                           <div class="tm-box">

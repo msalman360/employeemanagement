@@ -25,6 +25,13 @@ Rails.application.routes.draw do
   post 'filter_user' => 'users#show'
   get 'user_profile' => 'users#user_profile'
 
+  ##### STATUSES #####
+  get 'status' => 'statuses#index'
+  post 'new_status' => 'statuses#create'
+  post 'update_status' => 'statuses#update'
+  post 'delete_status' => 'statuses#destroy'
+  post 'filter_status' => 'statuses#show'
+
   ##### MENUS #####
   get 'menu' => 'menus#index'
   post 'new_menu' => 'menus#create'

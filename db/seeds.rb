@@ -12,7 +12,7 @@
       Menu.create(:name => main_menu.gsub("_", " ").capitalize, :menu_type => "main_menu", :is_active => true, :slug => main_menu)
     elsif main_menu == "system_settings"
       Menu.create(:name => main_menu.gsub("_", " ").capitalize, :menu_type => "main_menu", :is_active => true, :slug => main_menu)
-      ["users", "menus", "roles", "locations", "categories"].each do |sub_menu|
+      ["users", "menus", "roles", "locations", "categories", "statuses"].each do |sub_menu|
         main_menu_id = Menu.where(:slug => main_menu).last.id
         check_sub_menu = Menu.where(:slug => sub_menu)
         if not check_sub_menu.present?
@@ -22,7 +22,7 @@
     end
   else
     if main_menu == "system_settings"
-      ["users", "menus", "roles", "locations", "categories"].each do |sub_menu|
+      ["users", "menus", "roles", "locations", "categories", "statuses"].each do |sub_menu|
         main_menu_id = Menu.where(:slug => main_menu).last.id
         check_sub_menu = Menu.where(:slug => sub_menu)
         if not check_sub_menu.present?
