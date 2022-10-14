@@ -95,22 +95,26 @@ class SessionsController < ApplicationController
 
   def reset_user_password
     user = User.find(params[:id])
+    @id = params[:id]
     if user.present?
       if user.otp.present?
         if user.otp == params[:session][:otp]
           user.update(:password => params[:session][:password], :otp => nil)
           ActivityStream.create_activity_stream("Reset #{user.email} Password", "User", user.id, user, "edit")
           flash[:notice] = "Password Updated, You Can Login Now."
+          redirect_to root_path
         else
           flash[:alert] = "OTP Not Matched, Enter Correct OTP"
+          render 'sessions/reset_password'
         end
       else
         flash[:alert] = "OTP Not Found"
+        render 'sessions/reset_password'
       end
     else
       flash[:alert] = "User Not Found"
+      render 'sessions/reset_password'
     end
-    redirect_to root_path
   end
 
 end
