@@ -1571,11 +1571,8 @@ window.theme.fn = {
 
 										'<div class="row">',
 											'<div class="col-6">',
-												'<p class="mt-xs mb-0">',
-													'<a href="#">Not John Doe?</a>',
-												'</p>',
 											'</div>',
-											'<div class="col-6">',
+											'<div class="col-6 mt-2">',
 												'<button type="submit" class="btn btn-primary pull-right">Unlock</button>',
 											'</div>',
 										'</div>',

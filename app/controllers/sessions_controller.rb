@@ -67,9 +67,9 @@ class SessionsController < ApplicationController
   end
 
   def send_recover_email
-    check_user = User.where(:is_active => true)
+    check_user = User.where(:email => params[:email])
     if check_user.present?
-      if check_user.where(:email => params[:email]).present?
+      if check_user.where(:is_active => true ).present?
         user = check_user.where(:email => params[:email])
         if user.present?
           if user.last.otp.present?
@@ -88,7 +88,7 @@ class SessionsController < ApplicationController
         flash[:alert] = "Your Account Is Currently In-Active, Contact To Admin."
       end
     else
-      flash[:alert] = "Your Account Is Currently In-Active, Contact To Admin."
+      flash[:alert] = "E-mail Not Found In System."
     end
     redirect_to recover_path
   end

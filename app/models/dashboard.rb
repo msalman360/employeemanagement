@@ -1,7 +1,7 @@
 class Dashboard < ApplicationRecord
 
   def self.check_side_bar_permission(menu_name, current_user)
-    menu_id = Menu.where(:slug => menu_name).pluck(:id).uniq
+    menu_id = Menu.where(:slug => menu_name, :is_active => true).pluck(:id).uniq
     if menu_id.present?
       if current_user.present?
         if current_user.role.permissions.where(:menu_id => menu_id).last.is_index == true
@@ -18,7 +18,7 @@ class Dashboard < ApplicationRecord
   end
 
   def self.check_permission(menu_name, current_user, permission_type)
-    menu_id = Menu.where(:slug => menu_name).pluck(:id).uniq
+    menu_id = Menu.where(:slug => menu_name, :is_active => true).pluck(:id).uniq
     if menu_id.present?
       if permission_type == "create"
         if current_user.role.permissions.where(:menu_id => menu_id).last.is_create == true
