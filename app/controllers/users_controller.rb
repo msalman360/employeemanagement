@@ -32,7 +32,7 @@ class UsersController < ApplicationController
   def create
     user = User.new(user_params)
     if user.save
-      ActivityStream.create_activity_stream("Create New User", "User", User.last.id, @current_user, "create")
+      ActivityStream.create_activity_stream("Create #{User.last.email} New User", "User", User.last.id, @current_user, "create")
       flash[:notice] = "User Created Successfully"
     else
       if user.errors.full_messages.first == "Email has already been taken"
@@ -50,7 +50,7 @@ class UsersController < ApplicationController
     end
     user = User.find(params[:id])
     if user.update(user_params)
-      ActivityStream.create_activity_stream("Update Existing User", "User", user.id, @current_user, "edit")
+      ActivityStream.create_activity_stream("Update #{user.email} Existing User", "User", user.id, @current_user, "edit")
       flash[:notice] = "User Updated Successfully"
     else
       flash[:alert] = "Something Went Wrong"

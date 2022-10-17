@@ -3,7 +3,7 @@ class ActivityStreamsController < ApplicationController
   before_action :set_module_name,  :only => [:index, :create, :show, :destroy]
 
   def index
-    @activity_streams = ActivityStream.order("id DESC").last(100)
+    @activity_streams = ActivityStream.all
     ActivityStream.create_activity_stream("View Activity Stream Index Page", "ActivityStream", 0, @current_user, "view")
   end
 

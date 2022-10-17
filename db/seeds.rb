@@ -76,6 +76,6 @@ check_user = User.where(:email => "admin@support.com")
 if check_user.present?
   check_user.update(:role_id => role.id, :is_active => true, :is_logged_in => false)
 else
-  User.create(:email => "admin@support.com", :password => "Admin@123", :full_name => "Administrator", :is_active => true, :is_logged_in => false, :role_id => role.id, :user_type => "Administrator")
+  User.create(:email => "admin@support.com", :password => "Admin@123", :full_name => "Administrator", :is_active => true, :is_logged_in => false, :role_id => role.id, :user_type => "administrator")
 end
 puts "Admin User Created"

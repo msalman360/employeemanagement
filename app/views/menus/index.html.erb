@@ -175,12 +175,7 @@
                                           <div class="form-group">
                                             <label class="col-form-label" for="formGroupExampleInput">Menu Type <span style="color: red">*</span></label>
                                             <select required class="form-control sumoselect2" name="menu_type" placeholder="Select Menu Type">
-                                              <option selected value="<%= menu.menu_type %>"><%= menu.menu_type.gsub("_", " ").split.map(&:capitalize).join(' ')  %></option>
-                                              <% if menu.menu_type == "main_menu" %>
-                                                <option value="sub_menu">Sub Menu</option>
-                                              <% else %>
-                                                <option value="main_menu">Main Menu</option>
-                                              <% end %>
+                                              <option selected value="<%= menu.menu_type %>"><%= menu.menu_type.gsub("_", " ").split.map(&:capitalize).join(' ') %></option>
                                             </select>
                                           </div>
                                         </div>

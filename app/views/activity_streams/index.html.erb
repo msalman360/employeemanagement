@@ -108,7 +108,7 @@
                 <tbody>
                 <% if @activity_streams.present? %>
                   <% count = 1 %>
-                  <% @activity_streams.each do |activity_stream| %>
+                  <% @activity_streams.order("id DESC").first(100).each do |activity_stream| %>
                     <% if activity_stream.user.present? %>
                       <tr>
                         <td><%= count %></td>

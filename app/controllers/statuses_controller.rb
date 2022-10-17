@@ -27,11 +27,11 @@ class StatusesController < ApplicationController
     status = Status.new(status_params)
     status.slug = params[:name].gsub(" ", "_").downcase
     if status.save
-      ActivityStream.create_activity_stream("Create New Status", "Status", Status.last.id, @current_user, "create")
+      ActivityStream.create_activity_stream("Create #{Status.last.name} New Status", "Status", Status.last.id, @current_user, "create")
       flash[:notice] = "Status Created Successfully"
     else
       if status.errors.full_messages.first == "Name has already been taken" or status.errors.full_messages.first == "Slug has already been taken"
-        flash[:alert] = status.errors.full_messages.first
+        flash[:alert] = status.errors.full_messages.first.gsub("Slug", "Name")
       else
         flash[:alert] = "Something Went Wrong"
       end
@@ -46,7 +46,7 @@ class StatusesController < ApplicationController
     status = Status.find(params[:id])
     status.slug = params[:name].gsub(" ", "_").downcase
     if status.update(status_params)
-      ActivityStream.create_activity_stream("Update Existing Status", "Status", status.id, @current_user, "edit")
+      ActivityStream.create_activity_stream("Update #{status.name} Existing Status", "Status", status.id, @current_user, "edit")
       flash[:notice] = "Menu Updated Successfully"
     else
       if status.errors.full_messages.first == "Name has already been taken" or status.errors.full_messages.first == "Slug has already been taken"

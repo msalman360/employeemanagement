@@ -33,11 +33,11 @@ class MenusController < ApplicationController
       Role.all.each do |role|
         Permission.create(:menu_id => Menu.last.id, :role_id => role.id)
       end
-      ActivityStream.create_activity_stream("Create New Menu", "Menu", Menu.last.id, @current_user, "create")
+      ActivityStream.create_activity_stream("Create #{Menu.last.name} New Menu", "Menu", Menu.last.id, @current_user, "create")
       flash[:notice] = "User Created Successfully"
     else
-      if menu.errors.full_messages.first == "Name has already been taken"
-        flash[:alert] = menu.errors.full_messages.first
+      if menu.errors.full_messages.first == "Name has already been taken" or menu.errors.full_messages.first == "Slug has already been taken"
+        flash[:alert] = menu.errors.full_messages.first.gsub("Slug", "Name")
       else
         flash[:alert] = "Something Went Wrong"
       end
@@ -52,7 +52,7 @@ class MenusController < ApplicationController
     menu = Menu.find(params[:id])
     menu.slug = params[:name].gsub(" ", "_").downcase
     if menu.update(menu_params)
-      ActivityStream.create_activity_stream("Update Existing Menu", "Menu", menu.id, @current_user, "edit")
+      ActivityStream.create_activity_stream("Update #{menu.name} Existing Menu", "Menu", menu.id, @current_user, "edit")
       flash[:notice] = "Menu Updated Successfully"
     else
       if menu.errors.full_messages.first == "Name has already been taken"

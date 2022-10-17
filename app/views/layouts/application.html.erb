@@ -189,27 +189,16 @@
 </body>
 </html>
 <% if alert.present? %>
-  <% if params[:commit] == "Sign In" or params[:action] == "recover" %>
-    <script>
-        $(document).ready(function (){
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: '<%= alert %>'
-            })
-        });
-        <% flash[:alert] = nil %>
-    </script>
-  <% else %>
-    <script>
-        $(document).ready(function (){
-            toastr.options.timeout = 1200;
-            toastr.error('<%= alert %>');
-        });
-        <% flash[:alert] = nil %>
-    </script>
-  <% end %>
-
+  <script>
+      $(document).ready(function (){
+          Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: '<%= alert %>'
+          })
+      });
+      <% flash[:alert] = nil %>
+  </script>
 <% end %>
 <% if notice.present? %>
   <script>
