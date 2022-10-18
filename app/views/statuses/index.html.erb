@@ -5,7 +5,7 @@
       <a class="mb-1 mt-1 me-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalBootstrap" href="#"><span class="bx bx-plus"></span> Status</a>
       <a class="mb-1 mt-1 me-1 btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#modalBootstrapfilter" href="#"><span class="bx bx-search"></span> Filter</a>
       <!-- Create Modal -->
-      <%= form_with url: new_status_path, method: :post, id: 'myForm', multipart: true do |form| %>
+      <%= form_with url: new_status_path, method: :post, multipart: true do |form| %>
         <div class="modal fade" id="modalBootstrap" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -18,13 +18,13 @@
                   <div class="row form-group pb-3">
                     <div class="col-lg-6">
                       <div class="form-group">
-                        <label class="col-form-label" for="formGroupExampleInput">Status <span style="color: red">*</span></label>
-                        <input required type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Enter Status">
+                        <label class="col-form-label">Status <span style="color: red">*</span></label>
+                        <input required type="text" name="name" class="form-control" placeholder="Enter Status">
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="form-group">
-                        <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
+                        <label class="col-form-label">Is Active? <span style="color: red">*</span></label><br>
                         <div class="switch switch-success">
                           <input required type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
                         </div>
@@ -42,7 +42,7 @@
         </div>
       <% end %>
       <!-- Filter Modal -->
-      <%= form_with url: filter_status_path, method: :post, id: 'myForm1', multipart: true do |form| %>
+      <%= form_with url: filter_status_path, method: :post, multipart: true do |form| %>
         <div class="modal fade" id="modalBootstrapfilter" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -55,7 +55,7 @@
                   <div class="row form-group pb-3">
                     <div class="col-lg-6">
                       <div class="form-group">
-                        <label class="col-form-label" for="formGroupExampleInput">Is Active? </label><br>
+                        <label class="col-form-label">Is Active? </label><br>
                         <div class="switch switch-success">
                           <input type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
                         </div>
@@ -131,13 +131,13 @@
                                       <div class="row form-group pb-3">
                                         <div class="col-lg-6">
                                           <div class="form-group">
-                                            <label class="col-form-label" for="formGroupExampleInput">Status <span style="color: red">*</span></label>
-                                            <input required type="text" name="name" class="form-control" id="formGroupExampleInput" value="<%= status.name %>">
+                                            <label class="col-form-label">Status <span style="color: red">*</span></label>
+                                            <input required type="text" name="name" class="form-control" value="<%= status.name %>">
                                           </div>
                                         </div>
                                         <div class="col-lg-6">
                                           <div class="form-group">
-                                            <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
+                                            <label class="col-form-label">Is Active? <span style="color: red">*</span></label><br>
                                             <div class="switch switch-success">
                                               <% if status.is_active == true %>
                                                 <input type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
@@ -174,13 +174,13 @@
                                     <div class="row form-group pb-3">
                                       <div class="col-lg-6">
                                         <div class="form-group">
-                                          <label class="col-form-label" for="formGroupExampleInput">Status <span style="color: red">*</span></label>
-                                          <input disabled type="text" class="form-control" id="formGroupExampleInput" value="<%= status.name.capitalize %>">
+                                          <label class="col-form-label">Status <span style="color: red">*</span></label>
+                                          <input disabled type="text" class="form-control" value="<%= status.name.capitalize %>">
                                         </div>
                                       </div>
                                       <div class="col-lg-6">
                                         <div class="form-group">
-                                          <label class="col-form-label" for="formGroupExampleInput">Is Active? <span style="color: red">*</span></label><br>
+                                          <label class="col-form-label">Is Active? <span style="color: red">*</span></label><br>
                                           <% if status.is_active == true %>
                                             <span class="badge-success badge">Active</span>
                                           <% else %>
@@ -203,7 +203,7 @@
                           <button type="button" class="btn btn-outline-danger border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= status.id %>"><span class="bx bx-trash"></span></button>
                           <div class="modal fade" id="modalBootstrapdelete<%= status.id %>" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
-                              <%= form_with url: delete_status_path, method: :post, id: 'myForm', multipart: true do |form| %>
+                              <%= form_with url: delete_status_path, method: :post, multipart: true do |form| %>
                                 <div class="modal-content">
                                   <div class="modal-header bg-danger">
                                     <h5 class="modal-title"><b>Are You Sure You Want To Delete <%= @sub_module_name.capitalize %></b>???</h5>

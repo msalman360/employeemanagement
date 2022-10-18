@@ -17,7 +17,7 @@
             <div class="form-group mb-3">
               <label>Username <span style="color: red"> *</span></label>
               <div class="input-group">
-                <%= f.email_field :email, class: "form-control" ,placeholder: "Email",class: "form-control form-control-lg", required: true %>
+                <%= f.email_field :email, placeholder: "Email",class: "form-control form-control-lg", required: true %>
                 <span class="input-group-text">
 										<i class="bx bx-user text-4"></i>
 									</span>
@@ -30,7 +30,7 @@
                 <a href="<%= recover_path %>" class="float-end">Lost Password?</a>
               </div>
               <div class="input-group">
-                <%= f.password_field :password, class: "form-control" ,placeholder: "Password" ,class: "form-control form-control-lg", required: true %>
+                <%= f.password_field :password,  placeholder: "Password" ,class: "form-control form-control-lg", required: true %>
                 <span class="input-group-text">
 										<i class="bx bx-lock text-4"></i>
 									</span>
@@ -41,7 +41,7 @@
               <div class="col-sm-8">
               </div>
               <div class="col-sm-4 text-end">
-                <%= f.submit "Sign In", class: "btn btn-primary mt-2", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Signing in..."} %>
+                <%= f.submit "Sign In", class: "btn btn-primary mt-2", data: {disable_with: "Signing in..."} %>
               </div>
             </div>
 
