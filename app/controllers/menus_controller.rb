@@ -27,20 +27,24 @@ class MenusController < ApplicationController
   end
 
   def create
-    menu = Menu.new(menu_params)
-    menu.slug = params[:name].gsub(" ", "_").downcase
-    if menu.save
-      Role.all.each do |role|
-        Permission.create(:menu_id => Menu.last.id, :role_id => role.id)
-      end
-      ActivityStream.create_activity_stream("Create #{Menu.last.name} New Menu", "Menu", Menu.last.id, @current_user, "create")
-      flash[:notice] = "User Created Successfully"
-    else
-      if menu.errors.full_messages.first == "Name has already been taken" or menu.errors.full_messages.first == "Slug has already been taken"
-        flash[:alert] = menu.errors.full_messages.first.gsub("Slug", "Name")
+    if (params[:menu_type] == "sub_menu" and params[:main_menu_id].present?) or (params[:menu_type] == "main_menu")
+      menu = Menu.new(menu_params)
+      menu.slug = params[:name].gsub(" ", "_").downcase
+      if menu.save
+        Role.all.each do |role|
+          Permission.create(:menu_id => Menu.last.id, :role_id => role.id)
+        end
+        ActivityStream.create_activity_stream("Create #{Menu.last.name} New Menu", "Menu", Menu.last.id, @current_user, "create")
+        flash[:notice] = "User Created Successfully"
       else
-        flash[:alert] = "Something Went Wrong"
+        if menu.errors.full_messages.first == "Name has already been taken" or menu.errors.full_messages.first == "Slug has already been taken"
+          flash[:alert] = menu.errors.full_messages.first.gsub("Slug", "Name")
+        else
+          flash[:alert] = "Something Went Wrong"
+        end
       end
+    else
+      flash[:alert] = "Select Main Menu For Sub Menu"
     end
     redirect_to menu_path
   end

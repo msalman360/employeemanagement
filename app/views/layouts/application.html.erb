@@ -167,6 +167,9 @@
 <%= javascript_include_tag 'examples.datatables.row.with.details', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'examples.datatables.tabletools', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'sweetalert', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'intercooler', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'jquery.mockjax', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'examples.ajax.made.easy', 'data-turbolinks-track': 'reload' %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.1.6/jquery.sumoselect.min.js"></script>
 <script>
 
@@ -192,7 +195,7 @@
   <script>
       $(document).ready(function (){
           Swal.fire({
-              icon: 'error',
+              icon: 'warning',
               title: 'Oops...',
               text: '<%= alert %>'
           })
