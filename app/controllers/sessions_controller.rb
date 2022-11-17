@@ -70,19 +70,15 @@ class SessionsController < ApplicationController
     check_user = User.where(:email => params[:email])
     if check_user.present?
       if check_user.where(:is_active => true ).present?
-        user = check_user.where(:email => params[:email])
-        if user.present?
-          if user.last.otp.present?
-            flash[:alert] = "Already Sent Recovery E-mail."
-          else
-            otp = (0...3).map {(1..100).to_a[rand(100)]}.join
-            user.update_all(:otp => otp.to_s)
-            user_id = user.last.id
-            NotificationsMailer.send_password_recover_email(params[:email], otp, user_id).deliver_now
-            flash[:notice] = "Recovery E-mail Sent Successfully, Check Your Inbox or Spam."
-          end
+        user = check_user.last
+        if user.otp.present?
+          flash[:alert] = "Already Sent Recovery E-mail."
         else
-          flash[:alert] = "E-mail Not Found In System."
+          otp = (0...3).map {(1..100).to_a[rand(100)]}.join
+          user.update(:otp => otp.to_s)
+          user_id = user.id
+          NotificationsMailer.send_password_recover_email(params[:email], otp, user_id).deliver_now
+          flash[:notice] = "Recovery E-mail Sent Successfully, Check Your Inbox or Spam."
         end
       else
         flash[:alert] = "Your Account Is Currently In-Active, Contact To Admin."

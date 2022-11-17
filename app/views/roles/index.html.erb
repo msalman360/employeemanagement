@@ -12,7 +12,7 @@
       <a class="mb-1 mt-1 me-1 btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#modalBootstrapfilter" href="#"><span class="bx bx-search"></span> Filter</a>
       <!-- Create Modal -->
       <%= form_with url: new_role_path, method: :post, id: 'myForm', multipart: true do |form| %>
-        <div class="modal" id="modalBootstrap" tabindex="-1" role="dialog">
+        <div class="modal fade" id="modalBootstrap" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lgg" role="document">
             <div class="modal-content">
               <div class="modal-header bg-primary">
@@ -191,7 +191,7 @@
       <% end %>
       <!-- Filter Modal -->
       <%= form_with url: filter_role_path, method: :post, id: 'myForm', multipart: true do |form| %>
-        <div class="modal" id="modalBootstrapfilter" tabindex="-1" role="dialog">
+        <div class="modal fade" id="modalBootstrapfilter" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header bg-tertiary">
@@ -267,7 +267,7 @@
                       <!-- Edit Button -->
                       <% if Dashboard.check_permission(@sub_module_name, current_user, "edit") %>
                         <button type="button" class="btn btn-outline-dark border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapedit<%= role.id %>"><span class="bx bx-edit"></span></button>
-                        <div class="modal" id="modalBootstrapedit<%= role.id %>" tabindex="-1" role="dialog">
+                        <div class="modal fade" id="modalBootstrapedit<%= role.id %>" tabindex="-1" role="dialog">
                           <div class="modal-dialog modal-lgg" role="document">
                             <%= form_with url: update_role_path, method: :post, id: 'myForm', multipart: true do |form| %>
                               <div class="modal-content">
@@ -486,7 +486,7 @@
                       <!-- View Button -->
                       <% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
                         <button type="button" class="btn btn-outline-success border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= role.id %>"><span class="bx bx-low-vision"></span></button>
-                        <div class="modal" id="modalBootstrapview<%= role.id %>" tabindex="-1" role="dialog">
+                        <div class="modal fade" id="modalBootstrapview<%= role.id %>" tabindex="-1" role="dialog">
                           <div class="modal-dialog modal-lgg" role="document">
                             <div class="modal-content">
                               <div class="modal-header bg-success">

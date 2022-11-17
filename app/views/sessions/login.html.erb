@@ -27,7 +27,7 @@
             <div class="form-group mb-3">
               <div class="clearfix">
                 <label class="float-left">Password<span style="color: red"> *</span></label>
-                <a href="<%= recover_path %>" class="float-end">Lost Password?</a>
+                <a href="<%= recover_path %>" class="float-end" onclick="loading_screen()">Lost Password?</a>
               </div>
               <div class="input-group">
                 <%= f.password_field :password,  placeholder: "Password" ,class: "form-control form-control-lg", required: true %>

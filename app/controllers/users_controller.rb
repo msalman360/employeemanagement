@@ -96,6 +96,7 @@ class UsersController < ApplicationController
 
   def user_profile
     @module_name = "user_profile"
+    @icon_name = "bx bx-user-circle"
     @activity_streams = current_user.activity_streams.where(:action_date => (Date.today - 1.days)..Date.today)
   end
 
