@@ -50,4 +50,20 @@ Rails.application.routes.draw do
   post 'delete_role' => 'roles#destroy'
   post 'filter_role' => 'roles#show'
 
+
+  ##### Employees #####
+  get 'employee' => 'employees#index'
+  post 'new_employee' => 'employees#create'
+  post 'update_employee' => 'employees#update'
+  post 'delete_employee' => 'employees#destroy'
+  post 'filter_employee' => 'employees#show'
+
+
+  ##### Attendance #####
+  get 'attendance' => 'attendances#index'
+  post 'new_attendance' => 'attendances#create'
+  post 'update_attendance' => 'attendances#update'
+  post 'delete_attendance' => 'attendances#destroy'
+  post 'filter_attendance' => 'attendances#show'
+
 end

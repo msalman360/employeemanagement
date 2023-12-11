@@ -12,4 +12,4 @@ development:
   <<: *default
   #  database: develop_beirholm
   #  database: develop_beirholm2
-  database: it-support
+  database: attendance

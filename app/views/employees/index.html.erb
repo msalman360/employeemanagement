@@ -1,0 +1,276 @@
+<!-- start: page -->
+<% if Dashboard.check_permission(@sub_module_name, current_user, "create") %>
+  <div class="row">
+    <div class="col-lg-12">
+      <a class="mb-1 mt-1 me-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalBootstrap" href="#"><span class="bx bx-plus"></span> Employees</a>
+      <a class="mb-1 mt-1 me-1 btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#modalBootstrapfilter" href="#"><span class="bx bx-search"></span> Filter</a>
+      <!-- Create Modal -->
+      <%= form_with url: new_employee_path, method: :post, multipart: true do |form| %>
+        <div class="modal fade" id="modalBootstrap" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header bg-primary">
+                <h5 class="modal-title">Create New <b><%= @sub_module_name.capitalize %></b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="row form-group pb-3">
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Employee <span style="color: red">*</span></label>
+                        <input required type="text" name="employee_name" class="form-control" placeholder="Enter Employee">
+                      </div>
+                    </div>
+
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Email <span style="color: red">*</span></label>
+                        <input  type="email" name="email" class="form-control" placeholder="Enter Email">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Phone Number <span style="color: red">*</span></label>
+                        <input  type="number" name="phone_number" class="form-control" placeholder="Enter Number">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Gender</label>
+                        <select class="form-control sumoselect2" name="gender" required>
+                          <option disabled selected value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                      </div>
+                    </div>
+
+
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="col-form-label">Is Active? <span style="color: red">*</span></label><br>
+                        <div class="switch switch-success">
+                          <input required type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <!-- Filter Modal -->
+      <%= form_with url: filter_employee_path, method: :post, multipart: true do |form| %>
+        <div class="modal fade" id="modalBootstrapfilter" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header bg-tertiary">
+                <h5 class="modal-title">Filter <b><%= @sub_module_name.capitalize %></b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="row form-group pb-3">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Is Active? </label><br>
+                        <div class="switch switch-success">
+                          <input type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
+  <div class="row">
+    <div class="col-lg-12">
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+          <h2 class="card-title"><%= @sub_module_name.capitalize %> Detail</h2>
+        </header>
+        <div class="card-body">
+          <!-- Modal Bootstrap -->
+          <div class="row p-2">
+            <div class="col-lg-12">
+              <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
+                <thead>
+                <tr>
+                  <th>Sr #</th>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Is Active?</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% if @employees.present? %>
+                  <% count = 1 %>
+                  <% @employees.order("id DESC").each do |employee| %>
+                    <tr>
+                      <td><%= count %></td>
+                      <td><%= employee.employee_name.capitalize %></td>
+                      <td><%= employee.phone_number %></td>
+                      <td><%= employee.email %></td>
+                      <td>
+                        <% if employee.is_active == true %>
+                          <span class="badge badge-success">Active</span>
+                        <% else %>
+                          <span class="badge badge-danger">In Active</span>
+                        <% end %>
+                      </td>
+                      <td>
+                        <!-- Edit Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "edit") %>
+                          <button type="button" class="btn btn-outline-dark border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapedit<%= employee.id %>"><span class="bx bx-edit"></span></button>
+                          <div class="modal fade" id="modalBootstrapedit<%= employee.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <%= form_with url: update_employee_path, method: :post, id: 'myForm', multipart: true do |form| %>
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">Update <b><%= @sub_module_name.capitalize %></b></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input hidden type="text" name="id" value="<%= employee.id %>">
+                                    <div class="row">
+                                      <div class="row form-group pb-3">
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label">Employee <span style="color: red">*</span></label>
+                                            <input required type="text" name="name" class="form-control" value="<%= employee.employee_name %>">
+                                          </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label">Is Active? <span style="color: red">*</span></label><br>
+                                            <div class="switch switch-success">
+                                              <% if employee.is_active == true %>
+                                                <input type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                                              <% else %>
+                                                <input type="checkbox" name="is_active" data-plugin-ios-switch />
+                                              <% end %>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary float-end">Update</button>
+                                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        <% end %>
+                        <!-- View Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
+                          <button type="button" class="btn btn-outline-success border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= employee.id %>"><span class="bx bx-show"></span></button>
+                          <div class="modal fade" id="modalBootstrapview<%= employee.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header bg-success">
+                                  <h5 class="modal-title">View <b><%= @sub_module_name.capitalize %></b></h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row">
+                                    <div class="row form-group pb-3">
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label">Employee <span style="color: red">*</span></label>
+                                          <input disabled type="text" class="form-control" value="<%= employee.employee_name.capitalize %>">
+                                        </div>
+                                      </div>
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label">Is Active? <span style="color: red">*</span></label><br>
+                                          <% if employee.is_active == true %>
+                                            <span class="badge-success badge">Active</span>
+                                          <% else %>
+                                            <span class="badge-danger badge">In-Active</span>
+                                          <% end %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        <% end %>
+                        <!-- Delete Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "delete") %>
+                          <button type="button" class="btn btn-outline-danger border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= employee.id %>"><span class="bx bx-trash"></span></button>
+                          <div class="modal fade" id="modalBootstrapdelete<%= employee.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                              <%= form_with url: delete_employee_path, method: :post, multipart: true do |form| %>
+                                <div class="modal-content">
+                                  <div class="modal-header bg-danger">
+                                    <h5 class="modal-title"><b>Are You Sure You Want To Delete <%= @sub_module_name.capitalize %></b>???</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input hidden type="text" name="id" value="<%= employee.id %>">
+                                    <div class="row">
+                                      <div class="col-lg-2"></div>
+                                      <div class="col-lg-4">
+                                        <button type="submit" class="btn btn-success float-start">Yes</button>
+                                      </div>
+                                      <div class="col-lg-4">
+                                        <button type="button" class="btn btn-warning float-end" data-bs-dismiss="modal">No</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        <% end %>
+                      </td>
+                    </tr>
+                    <% count += 1 %>
+                  <% end %>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+<!-- end: page -->

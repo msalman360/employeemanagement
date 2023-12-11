@@ -23,6 +23,14 @@
               </a>
             </li>
           <% end %>
+          <% if Dashboard.check_side_bar_permission("attendance", @current_user) == true %>
+            <li>
+              <a class="nav-link" href="<%= attendance_path %>" onclick="loading_screen()">
+                <i class="fa fa-cash-register" aria-hidden="true"></i>
+                <span>Attendance</span>
+              </a>
+            </li>
+          <% end %>
           <% if Dashboard.check_side_bar_permission("system_settings", @current_user) == true %>
             <li class="nav-parent">
               <a class="nav-link" href="#">
@@ -30,34 +38,23 @@
                 <span>System Settings</span>
               </a>
               <ul class="nav nav-children">
+
+                <% if Dashboard.check_side_bar_permission("employees", @current_user) == true %>
+                  <li>
+                    <a class="nav-link" href="<%= employee_path %>">
+                      Employees
+                    </a>
+                  </li>
+                <% end %>
+
                 <% if Dashboard.check_side_bar_permission("users", @current_user) == true %>
                   <li>
                     <a class="nav-link" href="<%= user_path %>" onclick="loading_screen()">
-                      Users
+                     Login Users
                     </a>
                   </li>
                 <% end %>
-                <% if Dashboard.check_side_bar_permission("statuses", @current_user) == true %>
-                  <li>
-                    <a class="nav-link" href="<%= status_path %>" onclick="loading_screen()">
-                      Statuses
-                    </a>
-                  </li>
-                <% end %>
-                <% if Dashboard.check_side_bar_permission("locations", @current_user) == true %>
-                  <li>
-                    <a class="nav-link" href="#">
-                      Locations
-                    </a>
-                  </li>
-                <% end %>
-                <% if Dashboard.check_side_bar_permission("categories", @current_user) == true %>
-                  <li>
-                    <a class="nav-link" href="#">
-                      Categories
-                    </a>
-                  </li>
-                <% end %>
+
                 <% if Dashboard.check_side_bar_permission("menus", @current_user) == true %>
                   <li>
                     <a class="nav-link" href="<%= menu_path %>" onclick="loading_screen()">
