@@ -20,8 +20,6 @@ class SessionsController < ApplicationController
                 render 'dashboards/index'
               end
             else
-              if user.is_logged_in == false
-                user.update(:is_logged_in => true)
                 session[:user_id] = user.id
                 @current_user = user
                 if @current_user.present?
@@ -32,10 +30,6 @@ class SessionsController < ApplicationController
                   ActivityStream.create_activity_stream("#{user.email} Logged-in To Dashboard", "User", @current_user.id, @current_user, "login")
                   render 'dashboards/index'
                 end
-              else
-                flash.now[:alert] = "Already logged-in on some other device."
-                render 'sessions/login'
-              end
             end
           else
             flash.now[:alert] = "Your Role/Permission Is In-Active, Contact To Admin"

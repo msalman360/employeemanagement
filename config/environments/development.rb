@@ -58,6 +58,7 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+  config.hosts << "c86d-72-255-39-15.ngrok-free.app"
 
   config.action_mailer.default_url_options = { host: 'beirholm.sapphiretextiles.com.pk:8082' }
   config.action_mailer.delivery_method = :smtp

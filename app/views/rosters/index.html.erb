@@ -2,10 +2,10 @@
 <% if Dashboard.check_permission(@sub_module_name, current_user, "create") %>
   <div class="row">
     <div class="col-lg-12">
-      <a class="mb-1 mt-1 me-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalBootstrap" href="#"><span class="bx bx-plus"></span> Attendance</a>
+      <a class="mb-1 mt-1 me-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalBootstrap" href="#"><span class="bx bx-plus"></span> Roster</a>
       <a class="mb-1 mt-1 me-1 btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#modalBootstrapfilter" href="#"><span class="bx bx-search"></span> Filter</a>
       <!-- Create Modal -->
-      <%= form_with url: new_attendance_path, method: :post, multipart: true do |form| %>
+      <%= form_with url: new_roster_path, method: :post, multipart: true do |form| %>
         <div class="modal fade" id="modalBootstrap" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -19,37 +19,39 @@
 
                     <div class="col-lg-6">
                       <div class="form-group">
-                        <label class="col-form-label">Employee</label>
-                        <select class="form-control sumoselect2" name="employee_id" required>
-                          <option disabled selected value="">Select Employee</option>
-                          <% Employee.where(is_active: true).each do |e| %>
-                            <option value="<%= e.id %>"> <%= e.employee_name.upcase %></option>
-                          <% end %>
+                        <label class="col-form-label">Shift Name: <span style="color: red">*</span></label>
+                        <input required type="text" name="name" class="form-control" placeholder="Enter Name">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Client Name: <span style="color: red">*</span></label>
+                        <input required type="text" name="client" class="form-control" placeholder="Enter Client Name">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Roster Type</label>
+                        <select class="form-control sumoselect2" name="shift_type" required>
+                          <option disabled selected value="">Select Type</option>
+                            <option value="Morning">Morning</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Tea">Tea</option>
+                            <option value="Bed">Bed</option>
                         </select>
                       </div>
                     </div>
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                       <div class="form-group">
-                        <label class="col-form-label" for="timeInput">Start Time:</label>
-                        <input type="time" class="form-control" id="timeInput" name="start_time">
+                        <label class="col-form-label">Is Active? <span style="color: red">*</span></label><br>
+                        <div class="switch switch-success">
+                          <input required type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                        </div>
                       </div>
                     </div>
-
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="col-form-label" for="timeInput">End Time:</label>
-                        <input type="time" class="form-control" id="timeInput" name="end_time">
-                      </div>
-                    </div>
-
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="col-form-label">Date <span style="color: red">*</span></label>
-                        <input  type="date" name="date" class="form-control" placeholder="Enter Date">
-                      </div>
-                    </div>
-
 
                   </div>
                 </div>
@@ -63,7 +65,7 @@
         </div>
       <% end %>
       <!-- Filter Modal -->
-      <%= form_with url: filter_attendance_path, method: :post, multipart: true do |form| %>
+      <%= form_with url: filter_roster_path, method: :post, multipart: true do |form| %>
         <div class="modal fade" id="modalBootstrapfilter" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -115,41 +117,43 @@
                 <thead>
                 <tr>
                   <th>Sr #</th>
-                  <th>Employee</th>
-                  <th>Start Time</th>
-                  <th>End Time</th>
-                  <th>Date</th>
-                  <th>Total Count</th>
+                  <th>Shift Name</th>
+                  <th>Client Name</th>
+                  <th>Roster Type</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <% if @attendance.present? %>
+                <% if @roster.present? %>
                   <% count = 1 %>
-                  <% @attendance.order("id DESC").each do |attendance| %>
+                  <% @roster.order("id DESC").each do |roster| %>
                     <tr>
                       <td><%= count %></td>
-                      <td><%= attendance.employee.employee_name %></td>
-                      <td><%= attendance.start_time.strftime('%I:%M:%S %p') %></td>
-                      <td><%= attendance.end_time.try(:strftime, '%I:%M:%S %p') %></td>
-                      <td><%= attendance.date.to_date %></td>
-                      <td><%= ((attendance.end_time.try(:- , attendance.start_time) || 0) / 60).to_i %> minutes</td>
+                      <td><%= roster.name.capitalize %></td>
+                      <td><%= roster.client.capitalize %></td>
+                      <td><%= roster.shift_type.capitalize %></td>
                       <td>
                         <!-- Edit Button -->
                         <% if Dashboard.check_permission(@sub_module_name, current_user, "edit") %>
-                          <button type="button" class="btn btn-outline-dark border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapedit<%= attendance.id %>"><span class="bx bx-edit"></span></button>
-                          <div class="modal fade" id="modalBootstrapedit<%= attendance.id %>" tabindex="-1" role="dialog">
+                          <button type="button" class="btn btn-outline-dark border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapedit<%= roster.id %>"><span class="bx bx-edit"></span></button>
+                          <div class="modal fade" id="modalBootstrapedit<%= roster.id %>" tabindex="-1" role="dialog">
                             <div class="modal-dialog modal-lg" role="document">
-                              <%= form_with url: update_attendance_path, method: :post, id: 'myForm', multipart: true do |form| %>
+                              <%= form_with url: update_roster_path, method: :post, id: 'myForm', multipart: true do |form| %>
                                 <div class="modal-content">
                                   <div class="modal-header">
                                     <h5 class="modal-title">Update <b><%= @sub_module_name.capitalize %></b></h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                   <div class="modal-body">
-                                    <input hidden type="text" name="id" value="<%= attendance.id %>">
+                                    <input hidden type="text" name="id" value="<%= roster.id %>">
                                     <div class="row">
                                       <div class="row form-group pb-3">
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label">roster Type <span style="color: red">*</span></label>
+                                            <input required type="text" name="shift_type" class="form-control" value="<%= roster.shift_type %>">
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -164,8 +168,8 @@
                         <% end %>
                         <!-- View Button -->
                         <% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
-                          <button type="button" class="btn btn-outline-success border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= attendance.id %>"><span class="bx bx-show"></span></button>
-                          <div class="modal fade" id="modalBootstrapview<%= attendance.id %>" tabindex="-1" role="dialog">
+                          <button type="button" class="btn btn-outline-success border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= roster.id %>"><span class="bx bx-show"></span></button>
+                          <div class="modal fade" id="modalBootstrapview<%= roster.id %>" tabindex="-1" role="dialog">
                             <div class="modal-dialog modal-lg" role="document">
                               <div class="modal-content">
                                 <div class="modal-header bg-success">
@@ -174,7 +178,14 @@
                                 </div>
                                 <div class="modal-body">
                                   <div class="row">
-
+                                    <div class="row form-group pb-3">
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label">roster Type <span style="color: red">*</span></label>
+                                          <input disabled type="text" class="form-control" value="<%= roster.shift_type.capitalize %>">
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                                 <div class="modal-footer">
@@ -186,17 +197,17 @@
                         <% end %>
                         <!-- Delete Button -->
                         <% if Dashboard.check_permission(@sub_module_name, current_user, "delete") %>
-                          <button type="button" class="btn btn-outline-danger border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= attendance.id %>"><span class="bx bx-trash"></span></button>
-                          <div class="modal fade" id="modalBootstrapdelete<%= attendance.id %>" tabindex="-1" role="dialog">
+                          <button type="button" class="btn btn-outline-danger border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= roster.id %>"><span class="bx bx-trash"></span></button>
+                          <div class="modal fade" id="modalBootstrapdelete<%= roster.id %>" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
-                              <%= form_with url: delete_attendance_path, method: :post, multipart: true do |form| %>
+                              <%= form_with url: delete_roster_path, method: :post, multipart: true do |form| %>
                                 <div class="modal-content">
                                   <div class="modal-header bg-danger">
                                     <h5 class="modal-title"><b>Are You Sure You Want To Delete <%= @sub_module_name.capitalize %></b>???</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                   <div class="modal-body">
-                                    <input hidden type="text" name="id" value="<%= attendance.id %>">
+                                    <input hidden type="text" name="id" value="<%= roster.id %>">
                                     <div class="row">
                                       <div class="col-lg-2"></div>
                                       <div class="col-lg-4">

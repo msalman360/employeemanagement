@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   ##### DASHBOARDS #####
   get 'dashboard' => 'dashboards#index'
+  post 'attendance' => 'dashboards#attendance'
 
   ##### ACTIVITY STREAMS #####
   get 'activity_stream' => 'activity_streams#index'
@@ -65,5 +66,13 @@ Rails.application.routes.draw do
   post 'update_attendance' => 'attendances#update'
   post 'delete_attendance' => 'attendances#destroy'
   post 'filter_attendance' => 'attendances#show'
+
+
+  ##### Attendance #####
+  get 'roster' => 'rosters#index'
+  post 'new_roster' => 'rosters#create'
+  post 'update_roster' => 'rosters#update'
+  post 'delete_roster' => 'rosters#destroy'
+  post 'filter_roster' => 'rosters#show'
 
 end
