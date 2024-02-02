@@ -51,6 +51,31 @@
               <% end %>
             </li>
           <% end %>
+          <% if Dashboard.check_side_bar_permission("payroll_management", @current_user) == true %>
+            <li class="nav-parent">
+              <a class="nav-link" href="#">
+                <i class="fa fa-cash-register" aria-hidden="true"></i>
+                <span>Payroll Management</span>
+              </a>
+              <ul class="nav nav-children">
+                <% if Dashboard.check_side_bar_permission("salary_register", @current_user) == true %>
+                  <li>
+                    <a class="nav-link" href="<%= salary_register_path %>" onclick="loading_screen()">
+                      Salary Register
+                    </a>
+                  </li>
+                <% end %>
+                <% if Dashboard.check_side_bar_permission("pay_item", @current_user) == true %>
+                  <li>
+                    <a class="nav-link" href="<%= pay_item_path %>" onclick="loading_screen()">
+                      Pay Item
+                    </a>
+                  </li>
+                <% end %>
+              </ul>
+            </li>
+          <% end %>
+
           <% if Dashboard.check_side_bar_permission("system_settings", @current_user) == true %>
             <li class="nav-parent">
               <a class="nav-link" href="#">

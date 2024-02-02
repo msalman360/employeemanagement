@@ -222,9 +222,85 @@
                                           <div class="form-group">
                                             <label class="col-form-label">Employee
                                               <span style="color: red">*</span></label>
-                                            <input required type="text" name="name" class="form-control" value="<%= employee.employee_name %>">
+                                            <input required type="text" name="employee_name" class="form-control" value="<%= employee.employee_name %>">
                                           </div>
                                         </div>
+
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label">Designation
+                                              <span style="color: red">*</span></label>
+                                            <select class="form-control sumoselect2" name="designation_id" required>
+                                              <option disabled value="">Select Designation</option>
+                                              <option value="IT Executive" <%= employee.designation_id == "IT Executive" ? 'selected' : '' %>>IT
+                                                Executive
+                                              </option>
+                                              <option value="Manager" <%= employee.designation_id == "Manager" ? 'selected' : '' %>>Manager</option>
+                                              <option value="Carer" <%= employee.designation_id == "Carer" ? 'selected' : '' %>>Carer</option>
+                                              <option value="Healthcare Assistant" <%= employee.designation_id == "Healthcare Assistant" ? 'selected' : '' %>>Healthcare
+                                                Assistant
+                                              </option>
+                                              <option value="Accountant" <%= employee.designation_id == "Accountant" ? 'selected' : '' %>>Accountant</option>
+                                              <option value="HR Support" <%= employee.designation_id == "HR Support" ? 'selected' : '' %>>HR
+                                                Support
+                                              </option>
+                                              <option value="HR Manager" <%= employee.designation_id == "HR Manager" ? 'selected' : '' %>>HR
+                                                Manager
+                                              </option>
+                                            </select>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label">Roster
+                                              <span style="color: red">*</span></label>
+                                            <select class="form-control sumoselect2" name="roster_id" required>
+                                              <option disabled value="">Select Roster</option>
+                                              <% Roster.where(is_active: true).each do |e| %>
+                                                <option value="<%= e.id %>" <%= employee.roster_id == e.id ? 'selected' : '' %>> <%= e.name %></option>
+                                              <% end %>
+                                            </select>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label">Salary
+                                              <span style="color: red">*</span></label>
+                                            <input type="number" name="salary" class="form-control" placeholder="Enter Salary" value="<%= employee.salary %>">
+                                          </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label">Email <span class="input-group-addon">
+        <i class="fa fa-mail-bulk"></i>
+      </span></label>
+                                            <input type="email" name="email" class="form-control" placeholder="Enter Email" value="<%= employee.email %>">
+                                          </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label">Phone <span class="input-group-addon">
+        <i class="fa fa-phone"></i>
+      </span></label>
+                                            <input id="phone" name="phone_number" data-plugin-masked-input data-input-mask="(99) 9999-999999" placeholder="(44) 1234 567890" class="form-control" value="<%= employee.phone_number %>">
+                                          </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label class="col-form-label">Gender</label>
+                                            <select class="form-control sumoselect2" name="gender" required>
+                                              <option disabled value="">Select Gender</option>
+                                              <option value="Male" <%= employee.gender == "Male" ? 'selected' : '' %>>Male</option>
+                                              <option value="Female" <%= employee.gender == "Female" ? 'selected' : '' %>>Female</option>
+                                            </select>
+                                          </div>
+                                        </div>
+
                                         <div class="col-lg-6">
                                           <div class="form-group">
                                             <label class="col-form-label">Is Active?
@@ -271,6 +347,80 @@
                                           <input disabled type="text" class="form-control" value="<%= employee.employee_name.capitalize %>">
                                         </div>
                                       </div>
+
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label">Designation
+                                            <span style="color: red">*</span></label>
+                                          <select class="form-control sumoselect2" name="designation_id" required value="<%= employee.designation_id %>">
+                                            <option disabled selected value="">Select Designation</option>
+                                            <option value="IT Executive">IT Executive</option>
+                                            <option value="Manager">Manager</option>
+                                            <option value="Carer">Carer</option>
+                                            <option value="Healthcare Assistant">Healthcare Assistant</option>
+                                            <option value="Accountant">Accountant</option>
+                                            <option value="HR Support">HR Support</option>
+                                            <option value="HR Manager">HR Manager</option>
+                                          </select>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label">Employee Name <span style="color: red">*</span></label>
+                                          <input type="text" name="employee_name" class="form-control" placeholder="Enter Employee Name" value="<%= employee.employee_name %>">
+                                        </div>
+                                      </div>
+
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label">Roster <span style="color: red">*</span></label>
+                                          <select class="form-control sumoselect2" name="roster_id" required value="<%= employee.roster_id %>">
+                                            <option disabled selected value="">Select Roster</option>
+                                            <% Roster.where(is_active: true).each do |e| %>
+                                              <option value="<%= e.id %>"> <%= e.name %></option>
+                                            <% end %>
+                                          </select>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label">Salary <span style="color: red">*</span></label>
+                                          <input type="number" name="salary" class="form-control" placeholder="Enter Salary" value="<%= employee.salary %>">
+                                        </div>
+                                      </div>
+
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label">Email <span class="input-group-addon">
+																<i class="fa fa-mail-bulk"></i>
+															</span></label>
+                                          <input type="email" name="email" class="form-control" placeholder="Enter Email" value="<%= employee.email %>">
+                                        </div>
+                                      </div>
+
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label">Phone <span class="input-group-addon">
+																<i class="fa fa-phone"></i>
+															</span></label>
+                                          <input id="phone" name="phone_number" data-plugin-masked-input data-input-mask="(99) 9999-999999" placeholder="(44) 1234 567890" class="form-control" value="<%= employee.phone_number %>">
+                                        </div>
+                                      </div>
+
+
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                          <label class="col-form-label">Gender</label>
+                                          <select class="form-control sumoselect2" name="gender" required value="<%= employee.gender %>">
+                                            <option disabled selected value="">Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                          </select>
+                                        </div>
+                                      </div>
+
                                       <div class="col-lg-6">
                                         <div class="form-group">
                                           <label class="col-form-label">Is Active?

@@ -1,0 +1,319 @@
+<!-- start: page -->
+<% if Dashboard.check_permission(@sub_module_name, current_user, "create") %>
+  <div class="row">
+    <div class="col-lg-12">
+      <a class="mb-1 mt-1 me-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalBootstrap" href="#"><span class="bx bx-plus"></span> Pay Item</a>
+      <a class="mb-1 mt-1 me-1 btn btn-tertiary" data-bs-toggle="modal" data-bs-target="#modalBootstrapfilter" href="#"><span class="bx bx-search"></span> Filter</a>
+      <!-- Create Modal -->
+      <%= form_with url: new_pay_item_path, method: :post, multipart: true do |form| %>
+        <div class="modal fade" id="modalBootstrap" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header bg-primary">
+                <h5 class="modal-title">Create New <b><%= @sub_module_name.capitalize %></b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="row form-group pb-3">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Company <span style="color: red">*</span></label>
+                        <select class="form-control sumoselect2" name="company_id" required>
+                          <option disabled selected value="">Select Company</option>
+                          <option value="1">Nurse Buddy</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Item Type</label>
+                        <select class="form-control sumoselect2" name="item_type" id="itemType" required>
+                          <option disabled selected value="">Select Item Type</option>
+                          <option value="Recurring">Recurring</option>
+                          <option value="Once">Once</option>
+                          <option value="Mileage">Mileage</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6" id="paymentTypeContainer">
+                      <div class="form-group">
+                        <label class="col-form-label">Payment Type</label>
+                        <select class="form-control sumoselect2" name="payment_type">
+                          <option disabled selected value="">Select Payment Type</option>
+                          <option value="Earning">Earning</option>
+                          <option value="Deduction">Deduction</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Employee</label>
+                        <select class="form-control sumoselect2" name="employee_id" required>
+                          <option disabled selected value="">Select Employee</option>
+                          <% Employee.where(is_active: true).each do |e| %>
+                            <option value="<%= e.id %>"> <%= e.employee_name.upcase %></option>
+                          <% end %>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6" id="itemName">
+                      <div class="form-group">
+                        <label class="col-form-label">Pay Item Name <span style="color: red">*</span></label>
+                        <input type="text" name="item_name" class="form-control" placeholder="Enter Pay Item">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Item Value <span style="color: red">*</span></label>
+                        <input type="number" name="item_amount" class="form-control" placeholder="Item Value">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6" id="payMonthContainer" style="display: none;">
+                      <div class="form-group">
+                        <label class="col-form-label" for="payMonthInput">Pay Month:</label>
+                        <input type="month" class="form-control" id="payMonthInput" name="pay_month">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Is Active? </label><br>
+                        <div class="switch switch-success">
+                          <input type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6" id="startDateContainer">
+                      <div class="form-group">
+                        <label class="col-form-label" for="startDateInput">Start Date:</label>
+                        <input type="date" class="form-control" id="startDateInput" name="start_date">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6" id="endDateContainer">
+                      <div class="form-group">
+                        <label class="col-form-label" for="endDateInput">End Date:</label>
+                        <input type="date" class="form-control" id="endDateInput" name="end_date">
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <!-- Filter Modal -->
+      <%= form_with url: filter_pay_item_path, method: :post, multipart: true do |form| %>
+        <div class="modal fade" id="modalBootstrapfilter" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header bg-tertiary">
+                <h5 class="modal-title">Filter <b><%= @sub_module_name.capitalize %></b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="row form-group pb-3">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="col-form-label">Is Active? </label><br>
+                        <div class="switch switch-success">
+                          <input type="checkbox" name="is_active" data-plugin-ios-switch checked="checked" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
+  <div class="row">
+    <div class="col-lg-12">
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+          <h2 class="card-title"><%= "Pay Item" %> Detail</h2>
+        </header>
+        <div class="card-body">
+          <!-- Modal Bootstrap -->
+          <div class="row p-2">
+            <div class="col-lg-12">
+              <table class="table table-bordered table-striped mb-0" >
+                <thead>
+                <tr>
+                  <th>Sr #</th>
+                  <th>Employee</th>
+                  <th>Item Name</th>
+                  <th>Payment Type</th>
+                  <th>Item Type</th>
+                  <th>Pay Month</th>
+                  <th>Item Value</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% if @pay_item.present? %>
+                  <% count = 1 %>
+                  <% @pay_item.order("id DESC").each do |pay_item| %>
+                    <tr>
+                      <td><%= count %></td>
+                      <td><%= pay_item.employee.employee_name %></td>
+                      <td><%= pay_item.item_name %></td>
+                      <td><%= pay_item.item_type %></td>
+                      <td><%= pay_item.payment_type %></td>
+                      <td><%= pay_item.pay_month.to_date.strftime("%B %Y") %></td>
+                      <td><%= pay_item.item_amount %></td>
+                      <td>
+                        <!-- Edit Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "edit") %>
+                          <button type="button" class="btn btn-outline-dark border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapedit<%= pay_item.id %>"><span class="bx bx-edit"></span></button>
+                          <div class="modal fade" id="modalBootstrapedit<%= pay_item.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <%= form_with url: update_pay_item_path, method: :post, id: 'myForm', multipart: true do |form| %>
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">Update <b><%= @sub_module_name.capitalize %></b></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input hidden type="text" name="id" value="<%= pay_item.id %>">
+                                    <div class="row">
+                                      <div class="row form-group pb-3">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary float-end">Update</button>
+                                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        <% end %>
+                        <!-- View Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
+                          <button type="button" class="btn btn-outline-success border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= pay_item.id %>"><span class="bx bx-show"></span></button>
+                          <div class="modal fade" id="modalBootstrapview<%= pay_item.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header bg-success">
+                                  <h5 class="modal-title">View <b><%= @sub_module_name.capitalize %></b></h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row">
+
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        <% end %>
+                        <!-- Delete Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "delete") %>
+                          <button type="button" class="btn btn-outline-danger border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= pay_item.id %>"><span class="bx bx-trash"></span></button>
+                          <div class="modal fade" id="modalBootstrapdelete<%= pay_item.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                              <%= form_with url: delete_pay_item_path, method: :post, multipart: true do |form| %>
+                                <div class="modal-content">
+                                  <div class="modal-header bg-danger">
+                                    <h5 class="modal-title"><b>Are You Sure You Want To Delete <%= @sub_module_name.capitalize %></b>???</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input hidden type="text" name="id" value="<%= pay_item.id %>">
+                                    <div class="row">
+                                      <div class="col-lg-2"></div>
+                                      <div class="col-lg-4">
+                                        <button type="submit" class="btn btn-success float-start">Yes</button>
+                                      </div>
+                                      <div class="col-lg-4">
+                                        <button type="button" class="btn btn-warning float-end" data-bs-dismiss="modal">No</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        <% end %>
+                      </td>
+                    </tr>
+                    <% count += 1 %>
+                  <% end %>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+<!-- end: page -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var itemTypeSelect = document.getElementById("itemType");
+        var paymentTypeContainer = document.getElementById("paymentTypeContainer");
+        var itemNameInput = document.getElementById("itemName");
+        var payMonthContainer = document.getElementById("payMonthContainer");
+        var startDateContainer = document.getElementById("startDateContainer");
+        var endDateContainer = document.getElementById("endDateContainer");
+
+        itemTypeSelect.addEventListener("change", function() {
+            if (itemTypeSelect.value === "Once") {
+                paymentTypeContainer.style.display = "block";
+                itemNameInput.style.display = "block";
+                startDateContainer.style.display = "none";
+                endDateContainer.style.display = "none";
+                payMonthContainer.style.display = "block";
+            } else if (itemTypeSelect.value === "Mileage") {
+                paymentTypeContainer.style.display = "none";
+                itemNameInput.style.display = "none";
+                startDateContainer.style.display = "none";
+                endDateContainer.style.display = "none";
+                payMonthContainer.style.display = "block";
+            } else {
+                paymentTypeContainer.style.display = "block";
+                itemNameInput.style.display = "block";
+                startDateContainer.style.display = "block";
+                endDateContainer.style.display = "block";
+                payMonthContainer.style.display = "none";
+            }
+        });
+    });
+</script>

@@ -68,11 +68,21 @@ Rails.application.routes.draw do
   post 'filter_attendance' => 'attendances#show'
 
 
-  ##### Attendance #####
+  ##### Roster #####
   get 'roster' => 'rosters#index'
   post 'new_roster' => 'rosters#create'
   post 'update_roster' => 'rosters#update'
   post 'delete_roster' => 'rosters#destroy'
   post 'filter_roster' => 'rosters#show'
+
+  ##### Pay Item #####
+  get 'pay_item' => 'pay_items#index'
+  post 'new_pay_item' => 'pay_items#create'
+  post 'update_pay_item' => 'pay_items#update'
+  post 'delete_pay_item' => 'pay_items#destroy'
+  post 'filter_pay_item' => 'pay_items#show'
+  ##### Salary Register #####
+  get 'salary_register' => 'salary_registers#index'
+  post 'filter_register' => 'salary_registers#show'
 
 end

@@ -18,4 +18,16 @@ class ApplicationController < ActionController::Base
       end
   end
 
+  def save_excel_file(book, file_name)
+    file_path = "/excel/#{file_name}.xlsx"
+    book.serialize "#{Rails.public_path.to_s + file_path}"
+    file_path
+  end
+
+  def check_directory(dir_path)
+    unless File.directory?(dir_path)
+      Dir.mkdir(dir_path)
+    end
+  end
+
 end

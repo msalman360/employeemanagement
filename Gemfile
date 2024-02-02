@@ -14,7 +14,10 @@ gem "pg"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
-
+gem 'time_difference'
+gem 'axlsx'
+gem 'rubyzip'
+gem 'zip-zip'
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 

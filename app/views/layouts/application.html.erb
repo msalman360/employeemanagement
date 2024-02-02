@@ -175,11 +175,7 @@
 
     $('.sumoselect2').SumoSelect({ selectAll: true, search: true });
 
-    $(document).ready(function(){
-        $("form").on("submit", function(event){
-            document.getElementById("loading").style.display = "block";
-        });
-    });
+
 
     function loading_screen(){
         <% if @display.present? %>

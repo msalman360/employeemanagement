@@ -69,7 +69,7 @@ class EmployeesController < ApplicationController
   private
 
   def employees_params
-    params.permit(:employee_name, :department_id, :roster_id,:designation_id,:email, :gender, :is_hod, :phone_number ,:is_active, :slug)
+    params.permit(:employee_name,:company_id ,:salary,:department_id, :roster_id,:designation_id,:email, :gender, :is_hod, :phone_number ,:is_active, :slug)
   end
 
   def set_module_name

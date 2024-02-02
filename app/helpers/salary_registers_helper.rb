@@ -1,0 +1,2 @@
+module SalaryRegistersHelper
+end

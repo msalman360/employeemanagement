@@ -1,0 +1,266 @@
+<%= form_with url: filter_register_path, method: :post, multipart: true do |form| %>
+  <div class="tab-content">
+
+    <div class="modal-body">
+      <div class="row form-group">
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label class="col-form-label" for="startDateInput">Start Date:</label>
+            <input type="date" class="form-control" id="startDateInput" name="start_date">
+          </div>
+        </div>
+
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label class="col-form-label" for="endDateInput">End Date:</label>
+            <input type="date" class="form-control" id="endDateInput" name="end_date">
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <!-- radio -->
+          <div class="form-group" style="padding-left: 20%">
+            <label class="card-radio-btn">
+              <input type="radio" name="export_file" value="excel" class="card-input-element d-none" value="demo2">
+              <div class="card card-body">
+                <div class="content_head"><i class="fas fa-file-excel"></i></div>
+                <div class="content_sub">Excel</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content: center!important;">
+      <button type="submit" class="btn btn-primary-scale-2"><i class='fas fa-search'></i> Generate List</button>
+    </div>
+  </div>
+<% end %>
+
+<% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
+  <div class="row mt-2">
+    <div class="col-lg-12">
+      <% if @attendance.present? %>
+        <section class="card">
+          <div class="card-body">
+            <!-- Modal Bootstrap -->
+            <div class="row p-2">
+              <div class="col-lg-12">
+                <table class="table table-bordered table-striped mb-0">
+                  <thead>
+                  <tr>
+                    <th>Sr #</th>
+                    <th>Employee</th>
+                    <th>Total Count</th>
+                    <th>Salary</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% count = 1 %>
+                  <% @attendance.order("id DESC").each do |attendance| %>
+                    <tr>
+                      <td><%= count %></td>
+                      <td><%= attendance.employee.employee_name %></td>
+                      <% total_hours = ((attendance.end_time.try(:-, attendance.start_time) || 0) / 3600.0).to_f.round(2) %>
+                      <td> <%= total_hours %> hours</td>
+                      <% employee = Employee.find_by(id: attendance.employee_id) %>
+                      <% hourly_salary = (employee.salary * total_hours).round(2) %>
+                      <td><%= hourly_salary %></td>
+                      <td>
+                        <!-- Edit Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "edit") %>
+                          <button type="button" class="btn btn-outline-dark border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapedit<%= attendance.id %>">
+                            <span class="bx bx-edit"></span></button>
+                          <div class="modal fade" id="modalBootstrapedit<%= attendance.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <%= form_with url: update_attendance_path, method: :post, id: 'myForm', multipart: true do |form| %>
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">Update <b><%= @sub_module_name.capitalize %></b></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input hidden type="text" name="id" value="<%= attendance.id %>">
+                                    <div class="row">
+                                      <div class="row form-group pb-3">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary float-end">Update</button>
+                                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        <% end %>
+                        <!-- View Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "view") %>
+                          <button type="button" class="btn btn-outline-success border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapview<%= attendance.id %>">
+                            <span class="bx bx-show"></span></button>
+                          <div class="modal fade" id="modalBootstrapview<%= attendance.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header bg-success">
+                                  <h5 class="modal-title">View <b><%= @sub_module_name.capitalize %></b></h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row">
+
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        <% end %>
+                        <!-- Delete Button -->
+                        <% if Dashboard.check_permission(@sub_module_name, current_user, "delete") %>
+                          <button type="button" class="btn btn-outline-danger border-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#modalBootstrapdelete<%= attendance.id %>">
+                            <span class="bx bx-trash"></span></button>
+                          <div class="modal fade" id="modalBootstrapdelete<%= attendance.id %>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                              <%= form_with url: delete_attendance_path, method: :post, multipart: true do |form| %>
+                                <div class="modal-content">
+                                  <div class="modal-header bg-danger">
+                                    <h5 class="modal-title">
+                                      <b>Are You Sure You Want To Delete <%= @sub_module_name.capitalize %></b>???</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input hidden type="text" name="id" value="<%= attendance.id %>">
+                                    <div class="row">
+                                      <div class="col-lg-2"></div>
+                                      <div class="col-lg-4">
+                                        <button type="submit" class="btn btn-success float-start">Yes</button>
+                                      </div>
+                                      <div class="col-lg-4">
+                                        <button type="button" class="btn btn-warning float-end" data-bs-dismiss="modal">No</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        <% end %>
+                      </td>
+                    </tr>
+                    <% count += 1 %>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+<!-- end: page -->
+
+<style>
+    .card {
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0.65rem;
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::before {
+        color: #fff;
+        border-color: #59a9f7;
+        background-color: #59a9f7;
+    }
+
+    /*Card Button CSS*/
+
+    .card-radio-btn .content_head {
+        color: #333;
+        font-size: 1.2rem;
+        line-height: 30px;
+        font-weight: 500;
+    }
+
+    .card-radio-btn .content_sub {
+        color: #3a454b;
+        font-size: 14px;
+    }
+
+    .card-input-element + .card {
+        width: 95px;
+        height: 70px;
+        margin: 10px;
+        justify-content: center;
+        color: #59a9f7;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border: 2px solid transparent;
+        border-radius: 10px;
+        text-align: center;
+        -webkit-box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .card-input-element + .card:hover {
+        cursor: pointer;
+    }
+
+    .card-input-element:checked + .card {
+        border: 2px solid #719eca;
+        -webkit-transition: border 0.3s;
+        -o-transition: border 0.3s;
+        transition: border 0.3s;
+    }
+
+    .card-input-element:checked + .card::after {
+        content: "\f058";
+        color: rgba(113, 158, 201, 0.6);
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        font-family: "Font Awesome 5 Free";
+        font-style: normal;
+        font-size: 1rem;
+        font-weight: 900;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-animation-name: fadeInCheckbox;
+        animation-name: fadeInCheckbox;
+        -webkit-animation-duration: 0.3s;
+        animation-duration: 0.3s;
+        -webkit-animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @-webkit-keyframes fadeInCheckbox {
+        from {
+            opacity: 0;
+            -webkit-transform: rotateZ(-20deg);
+        }
+
+        to {
+            opacity: 1;
+            -webkit-transform: rotateZ(0deg);
+        }
+    }
+
+    @keyframes fadeInCheckbox {
+        from {
+            opacity: 0;
+            transform: rotateZ(-20deg);
+        }
+
+        to {
+            opacity: 1;
+            transform: rotateZ(0deg);
+        }
+    }
+
+</style>
